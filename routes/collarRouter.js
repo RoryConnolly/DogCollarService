@@ -19,6 +19,10 @@ function handleSuccess(data, res) {
   res.json({ message: 'success', statusCode: 200, data });
 }
 
+function handlePutSuccess(data, res) {
+  res.json({ message: 'success', statusCode: 201, data });
+}
+
 function routes() {
   const router = express.Router();
   const docClient = new AWS.DynamoDB.DocumentClient();
@@ -53,44 +57,16 @@ function routes() {
   });
 
   router.post('/collar', (req, res) => {
-    res.json({ requestBody: req.body });
-    const collar = {};
-    if (req.body.collarId) {
-      collar.collarId = req.body.collarId;
-    }
-    if (req.body.collarResp) {
-      collar.collarResp = req.body.collarResp;
-    }
-    if (req.body.dogName) {
-      collar.dogName = req.body.dogName;
-    }
-    if (req.body.barking) {
-      collar.barking = req.body.barking;
-    }
-    if (req.body.location) {
-      collar.location = req.body.location;
-    }
-    if (req.body.activity) {
-      collar.activity = req.body.activity;
-    }
-
     const params = {
       TableName: table,
-      Item: {
-        activity: collar.activity,
-        location: collar.location,
-        barking: collar.barking,
-        dogName: collar.dogName,
-        collarResp: collar.collarResp,
-        collarId: collar.collarId
-      }
+      Item: req.body
     };
 
     docClient.put(params, (err, data) => {
       if (err) {
         handleError(err, res);
       } else {
-        handleSuccess(data.Item, res);
+        handlePutSuccess(data.Item, res);
       }
     });
   });
@@ -102,10 +78,10 @@ function routes() {
 
     function onScan(err, data) {
       if (err) {
-        console.error('Unable to scan the table. Error JSON:', JSON.stringify(err, null, 2));
+        console.error('Unable to scan the table. Error JSON');
         handleError(err, res);
       } else {
-        console.log('Scan succeeded:', JSON.stringify(data, null, 2));
+        console.log('Scan succeeded:');
         handleSuccess(data.Items, res);
       }
     }

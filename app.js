@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const DataPacket = require('./models/dataPacket');
-const router = require('./routes/collarRouter')(DataPacket);
+const router = require('./routes/collarRouter')();
 
 const app = express();
 
