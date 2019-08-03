@@ -4,11 +4,12 @@ const { Schema } = mongoose;
 
 const dataModel = new Schema(
   {
-    Collar: { type: String },
-    DogName: { type: String },
-    Barking: { type: String },
-    Activity: { type: String },
-    Location: { type: String },
+    collarId: { type: String },
+    collarResp: { type: String },
+    dogName: { type: String },
+    barking: { type: String },
+    activity: { type: String },
+    location: { type: String },
   }
 );
 

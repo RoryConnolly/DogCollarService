@@ -28,7 +28,7 @@ mockData.forEach((collarResponse) => {
     if (err) {
       console.error('Unable to add collar', collarResponse.collarId, '. Error JSON:', JSON.stringify(err, null, 2));
     } else {
-      console.log('PutItem succeeded:', collarResponse.collarId);
+      console.log('PutItem succeeded:', JSON.stringify(data, null, 2));
     }
   });
 });
