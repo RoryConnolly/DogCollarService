@@ -33,17 +33,22 @@ function clientController() {
   }
   function post(req, res) {
     const params = {
-      TableName: table,
+      TableName: 'CollarData',
       Item: req.body
     };
 
-    docClient.put(params, (err, data) => {
-      if (err) {
-        handle.handleError(err, res);
-      } else {
-        handle.handlePutSuccess(data.Item, res);
-      }
-    });
+    if (req.body.collarId && req.body.collarResp) {
+      docClient.put(params, (err, data) => {
+        if (err) {
+          handle.handleError(err, res);
+        } else {
+          handle.handlePutSuccess(data.Item, res);
+        }
+      });
+    } else {
+      res.status(400);
+      res.send('Collar ID and Collar Response required');
+    }
   }
   function remove(req, res) {
     const query = {};
