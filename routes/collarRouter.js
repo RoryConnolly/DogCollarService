@@ -1,32 +1,17 @@
 const AWS = require('aws-sdk');
 const express = require('express');
 const clientController = require('../controllers/clientController');
+const handleSuccess = require('../controllers/handleResponse');
 
 AWS.config.update({
   region: 'us-east-1',
   endpoint: 'http://dynamodb.us-east-1.amazonaws.com',
 });
 
-function handleError(err, res) {
-  res.json({
-    message: 'server side error',
-    statusCode: 500,
-    error:
-    err
-  });
-}
-
-function handleSuccess(data, res) {
-  res.json({ message: 'success', statusCode: 200, data });
-}
-
-// function handlePutSuccess(data, res) {
-//   res.json({ message: 'success', statusCode: 201, data });
-// }
-
 function routes() {
   const router = express.Router();
   const docClient = new AWS.DynamoDB.DocumentClient();
+  const handle = handleSuccess();
   const controller = clientController();
   const table = 'CollarData';
 
@@ -40,9 +25,9 @@ function routes() {
 
     function onScan(err, data) {
       if (err) {
-        handleError(err, res);
+        handle.handleError(err, res);
       } else {
-        handleSuccess(data.Items, res);
+        handle.handleSuccess(data.Items, res);
       }
     }
 

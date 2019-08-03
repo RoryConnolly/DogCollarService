@@ -1,25 +1,10 @@
 const AWS = require('aws-sdk');
-
-function handleError(err, res) {
-  res.json({
-    message: 'server side error',
-    statusCode: 500,
-    error:
-    err
-  });
-}
-
-function handleSuccess(data, res) {
-  res.json({ message: 'success', statusCode: 200, data });
-}
-
-function handlePutSuccess(data, res) {
-  res.json({ message: 'success', statusCode: 201, data });
-}
+const handleSuccess = require('./handleResponse');
 
 function clientController() {
   const docClient = new AWS.DynamoDB.DocumentClient();
   const table = 'CollarData';
+  const handle = handleSuccess();
 
   function get(req, res) {
     const query = {};
@@ -40,9 +25,9 @@ function clientController() {
 
     docClient.get(params, (err, data) => {
       if (err) {
-        handleError(err, res);
+        handle.handleError(err, res);
       } else {
-        handleSuccess(data.Item, res);
+        handle.handleSuccess(data.Item, res);
       }
     });
   }
@@ -54,9 +39,9 @@ function clientController() {
 
     docClient.put(params, (err, data) => {
       if (err) {
-        handleError(err, res);
+        handle.handleError(err, res);
       } else {
-        handlePutSuccess(data.Item, res);
+        handle.handlePutSuccess(data.Item, res);
       }
     });
   }
@@ -80,9 +65,9 @@ function clientController() {
     // TODO do proper codes for delete 204
     docClient.delete(params, (err, data) => {
       if (err) {
-        handleError(err, res);
+        handle.handleError(err, res);
       } else {
-        handleSuccess(data.Item, res);
+        handle.handleSuccess(data.Item, res);
       }
     });
   }
