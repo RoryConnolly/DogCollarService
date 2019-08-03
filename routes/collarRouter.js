@@ -28,6 +28,22 @@ function routes() {
   const docClient = new AWS.DynamoDB.DocumentClient();
   const table = 'CollarData';
 
+  router.get('/fetch', (req, res) => {
+    const params = {
+      TableName: table,
+    };
+
+    function onScan(err, data) {
+      if (err) {
+        handleError(err, res);
+      } else {
+        handleSuccess(data.Items, res);
+      }
+    }
+
+    docClient.scan(params, onScan);
+  });
+
   router.get('/fetch/ByID', (req, res) => {
     const query = {};
     if (req.query.collarId) {
@@ -47,10 +63,8 @@ function routes() {
 
     docClient.get(params, (err, data) => {
       if (err) {
-        console.error('Unable to read item. Error JSON:', JSON.stringify(err, null, 2));
         handleError(err, res);
       } else {
-        console.log('GetItem succeeded:', JSON.stringify(data, null, 2));
         handleSuccess(data.Item, res);
       }
     });
@@ -71,22 +85,31 @@ function routes() {
     });
   });
 
-  router.get('/fetch', (req, res) => {
+  router.delete('/remove', (req, res) => {
+    const query = {};
+    if (req.query.collarId) {
+      query.collarId = req.query.collarId;
+    }
+    if (req.query.collarResp) {
+      query.collarResp = req.query.collarResp;
+    }
+
     const params = {
       TableName: table,
+      Key: {
+        collarId: query.collarId,
+        collarResp: query.collarResp,
+      },
     };
 
-    function onScan(err, data) {
+    // TODO do proper codes for delete 204
+    docClient.delete(params, (err, data) => {
       if (err) {
-        console.error('Unable to scan the table. Error JSON');
         handleError(err, res);
       } else {
-        console.log('Scan succeeded:');
-        handleSuccess(data.Items, res);
+        handleSuccess(data.Item, res);
       }
-    }
-    console.log('Scanning for Dog Collar Data');
-    docClient.scan(params, onScan);
+    });
   });
 
   return router;

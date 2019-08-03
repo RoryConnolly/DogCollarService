@@ -7,8 +7,8 @@ AWS.config.update({
 });
 
 const docClient = new AWS.DynamoDB.DocumentClient();
-
-console.log('Importing collars into DynamoDB. Please wait.');
+// eslint-disable-next-line no-console
+console.log('Importing collar data into DynamoDB. Please wait.');
 
 const mockData = JSON.parse(fs.readFileSync('mockData.json', 'utf8'));
 mockData.forEach((collarResponse) => {
