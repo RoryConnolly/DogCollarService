@@ -1,4 +1,5 @@
 const AWS = require('aws-sdk');
+// const handleSuccess = require('../controllers/handleResponse');
 
 AWS.config.update({
   region: 'us-east-1',
@@ -6,6 +7,8 @@ AWS.config.update({
 });
 
 const dynamodb = new AWS.DynamoDB();
+// TODO - fix handleResponse for all types
+// const handle = handleSuccess();
 
 const params = {
   TableName: 'CollarData',

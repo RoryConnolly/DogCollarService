@@ -18,5 +18,8 @@ app.get('/', (req, res) => {
 app.use('/api', router);
 
 app.listen(port, () => {
+  // eslint-disable-next-line no-console
   console.log(`Running on port ${port}`);
 });
+
+module.exports = app;
