@@ -31,42 +31,7 @@ function clientController() {
       }
     });
   }
-  function query(req, res) {
-    // if (req.query.collarId) {
-    //   queryObj.collarId = req.query.collarId;
-    // }
-    // if (req.query.collarResp) {
-    //   queryObj.collarResp = req.query.collarResp;
-    // }
 
-    const params = {
-      TableName: table,
-      Key: {
-        collarId: 'abc4'
-      },
-      ExpressionAttributeNames: {
-        // l: 'location',
-        b: 'barking'
-      },
-      ExpressionAttributeValues: {
-        // ':zip': { S: '37901' },
-        // ':e': { N: '09' },
-        ':bark': { S: 'high' }
-      },
-      // KeyConditionExpression: 'l = :zip',
-      KeyConditionExpression: 'b = :bark',
-      // ProjectionExpression: 'location, barking',
-      // FilterExpression: 'contains (barking, :b)'
-    };
-
-    docClient.query(params, (err, data) => {
-      if (err) {
-        handle.handleError(err, res);
-      } else {
-        handle.handleSuccess(data.Item, res);
-      }
-    });
-  }
   function post(req, res) {
     const params = {
       TableName: 'CollarData',
@@ -112,7 +77,7 @@ function clientController() {
     });
   }
   return {
-    get, post, remove, query
+    get, post, remove
   };
 }
 
