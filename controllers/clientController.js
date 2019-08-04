@@ -1,10 +1,10 @@
 const AWS = require('aws-sdk');
-const handleSuccess = require('./handleResponse');
+const handleResponse = require('./handleResponse');
 
 function clientController() {
   const docClient = new AWS.DynamoDB.DocumentClient();
   const table = 'CollarData';
-  const handle = handleSuccess();
+  const handle = handleResponse();
   const queryObj = {};
 
   function get(req, res) {
@@ -47,11 +47,11 @@ function clientController() {
         Item: req.body
       };
 
-      docClient.put(params, (err, data) => {
+      docClient.put(params, (err) => {
         if (err) {
           handle.handleError(err, res);
         } else {
-          handle.handlePutSuccess(data.Item, res);
+          handle.handlePostSuccess(res);
         }
       });
     } else {

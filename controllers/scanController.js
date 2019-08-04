@@ -1,10 +1,10 @@
 const AWS = require('aws-sdk');
-const handleSuccess = require('./handleResponse');
+const handleResponse = require('./handleResponse');
 
 function scanController() {
   const docClient = new AWS.DynamoDB.DocumentClient();
   const table = 'CollarData';
-  const handle = handleSuccess();
+  const handle = handleResponse();
   const queryObj = {};
 
   function get(req, res) {
