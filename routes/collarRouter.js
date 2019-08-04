@@ -1,38 +1,27 @@
 const AWS = require('aws-sdk');
 const express = require('express');
 const clientController = require('../controllers/clientController');
-const handleSuccess = require('../controllers/handleResponse');
+const scanController = require('../controllers/scanController');
 
 AWS.config.update({
   region: 'us-east-1',
   endpoint: 'http://dynamodb.us-east-1.amazonaws.com',
 });
 
+
 function routes() {
   const router = express.Router();
-  const docClient = new AWS.DynamoDB.DocumentClient();
-  const handle = handleSuccess();
   const controller = clientController();
-  const table = 'CollarData';
+  const scController = scanController();
 
-  router.route('/fetch/ByID').get(controller.get);
-  router.route('/collar').post(controller.post);
+  router.route('/fetch/all').get(scController.get);
+  router.route('/fetch/allByCollarId').get(scController.getByCollar);
+  router.route('/fetch/allByBarking').get(scController.getByBarking);
+  router.route('/fetch/allByActivity').get(scController.getByActivity);
+  router.route('/fetch/allByLocation').get(scController.getByLocation);
+  router.route('/fetch/SpecificCollarRespByID').get(controller.get);
   router.route('/remove').delete(controller.remove);
-  router.route('/fetch').get((req, res) => {
-    const params = {
-      TableName: table,
-    };
-
-    function onScan(err, data) {
-      if (err) {
-        handle.handleError(err, res);
-      } else {
-        handle.handleSuccess(data.Items, res);
-      }
-    }
-
-    docClient.scan(params, onScan);
-  });
+  router.route('/pushCollarData').post(controller.post);
 
   return router;
 }
