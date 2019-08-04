@@ -21,6 +21,7 @@ function handleResponse() {
       error: err
     });
   }
+
   return { handleError, handlePostSuccess, handleSuccess };
 }
 module.exports = handleResponse;
