@@ -7,11 +7,10 @@ function handleResponse() {
     });
   }
 
-  function handlePutSuccess(data, res) {
+  function handlePostSuccess(res) {
     res.json({
-      message: 'success',
-      statusCode: 201,
-      data
+      message: 'successfully added to the db',
+      statusCode: 201
     });
   }
 
@@ -19,10 +18,10 @@ function handleResponse() {
     res.json({
       message: 'server side error',
       statusCode: 500,
-      error:
-    err
+      error: err
     });
   }
-  return { handleError, handlePutSuccess, handleSuccess };
+
+  return { handleError, handlePostSuccess, handleSuccess };
 }
 module.exports = handleResponse;
