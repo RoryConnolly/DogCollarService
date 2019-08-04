@@ -74,8 +74,26 @@ function scanController() {
       res.send('Location (zipcode) value required: i.e. location=37901');
     }
   }
+  function getByCollar(req, res) {
+    if (req.query.collarId) {
+      queryObj.collarId = req.query.collarId;
+      const params = {
+        TableName: table,
+        ExpressionAttributeValues: { ':a': queryObj.collarId },
+        FilterExpression: 'collarId = :a'
+      };
+
+      docClient.scan(params, (err, data) => {
+        if (err) handle.handleError(err, res);
+        else handle.handleSuccess(data.Items, res);
+      });
+    } else {
+      res.status(400);
+      res.send('CollarId value required: i.e. collarId=abc1');
+    }
+  }
   return {
-    get, getByBarking, getByActivity, getByLocation
+    get, getByBarking, getByActivity, getByLocation, getByCollar
   };
 }
 
