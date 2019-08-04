@@ -5,25 +5,61 @@ function clientController() {
   const docClient = new AWS.DynamoDB.DocumentClient();
   const table = 'CollarData';
   const handle = handleSuccess();
+  const queryObj = {};
 
   function get(req, res) {
-    const query = {};
     if (req.query.collarId) {
-      query.collarId = req.query.collarId;
+      queryObj.collarId = req.query.collarId;
     }
     if (req.query.collarResp) {
-      query.collarResp = req.query.collarResp;
+      queryObj.collarResp = req.query.collarResp;
     }
 
     const params = {
       TableName: table,
       Key: {
-        collarId: query.collarId,
-        collarResp: query.collarResp,
+        collarId: queryObj.collarId,
+        collarResp: queryObj.collarResp,
       },
     };
 
     docClient.get(params, (err, data) => {
+      if (err) {
+        handle.handleError(err, res);
+      } else {
+        handle.handleSuccess(data.Item, res);
+      }
+    });
+  }
+  function query(req, res) {
+    // if (req.query.collarId) {
+    //   queryObj.collarId = req.query.collarId;
+    // }
+    // if (req.query.collarResp) {
+    //   queryObj.collarResp = req.query.collarResp;
+    // }
+
+    const params = {
+      TableName: table,
+      Key: {
+        collarId: 'abc4'
+      },
+      ExpressionAttributeNames: {
+        // l: 'location',
+        b: 'barking'
+      },
+      ExpressionAttributeValues: {
+        // ':zip': { S: '37901' },
+        // ':e': { N: '09' },
+        ':bark': { S: 'high' }
+      },
+      // KeyConditionExpression: 'l = :zip',
+      KeyConditionExpression: 'b = :bark',
+      // ProjectionExpression: 'location, barking',
+      // FilterExpression: 'contains (barking, :b)'
+    };
+
+    docClient.query(params, (err, data) => {
       if (err) {
         handle.handleError(err, res);
       } else {
@@ -51,19 +87,18 @@ function clientController() {
     }
   }
   function remove(req, res) {
-    const query = {};
     if (req.query.collarId) {
-      query.collarId = req.query.collarId;
+      queryObj.collarId = req.query.collarId;
     }
     if (req.query.collarResp) {
-      query.collarResp = req.query.collarResp;
+      queryObj.collarResp = req.query.collarResp;
     }
 
     const params = {
       TableName: table,
       Key: {
-        collarId: query.collarId,
-        collarResp: query.collarResp,
+        collarId: queryObj.collarId,
+        collarResp: queryObj.collarResp,
       },
     };
 
@@ -76,7 +111,9 @@ function clientController() {
       }
     });
   }
-  return { get, post, remove };
+  return {
+    get, post, remove, query
+  };
 }
 
 module.exports = clientController;
