@@ -1,10 +1,10 @@
 const AWS = require('aws-sdk');
-const handleSuccess = require('./handleResponse');
+const handleResponse = require('./handleResponse');
 
-function clientController() {
+function docClientController() {
   const docClient = new AWS.DynamoDB.DocumentClient();
   const table = 'CollarData';
-  const handle = handleSuccess();
+  const handle = handleResponse();
   const queryObj = {};
 
   function get(req, res) {
@@ -28,8 +28,10 @@ function clientController() {
         }
       });
     } else {
-      res.status(400);
-      res.send('Collar ID and Collar params required, i.e. collarId=abc2&collarResp=3');
+      res.json({
+        message: 'Collar ID and Collar params required, i.e. collarId=abc2&collarResp=3',
+        statusCode: 400
+      });
     }
   }
 
@@ -47,16 +49,18 @@ function clientController() {
         Item: req.body
       };
 
-      docClient.put(params, (err, data) => {
+      docClient.put(params, (err) => {
         if (err) {
           handle.handleError(err, res);
         } else {
-          handle.handlePutSuccess(data.Item, res);
+          handle.handlePostSuccess(res);
         }
       });
     } else {
-      res.status(400);
-      res.send('Invalid Schema i.e. activity: low, location: 37901, barking: high, dogName: Bouncer, collarResp: 5, collarId: abc6');
+      res.json({
+        message: 'Invalid Schema i.e. activity: low, location: 37901, barking: high, dogName: Bouncer, collarResp: 5, collarId: abc6',
+        statusCode: 400
+      });
     }
   }
 
@@ -82,8 +86,10 @@ function clientController() {
         }
       });
     } else {
-      res.status(400);
-      res.send('Collar ID and Collar params required, i.e. collarId=abc2&collarResp=3');
+      res.json({
+        message: 'Collar ID and Collar params required, i.e. collarId=abc2&collarResp=3',
+        statusCode: 400
+      });
     }
   }
   return {
@@ -91,4 +97,4 @@ function clientController() {
   };
 }
 
-module.exports = clientController;
+module.exports = docClientController;

@@ -1,6 +1,6 @@
 const AWS = require('aws-sdk');
 const express = require('express');
-const clientController = require('../controllers/clientController');
+const clientController = require('../controllers/docClientController');
 const scanController = require('../controllers/scanController');
 
 AWS.config.update({

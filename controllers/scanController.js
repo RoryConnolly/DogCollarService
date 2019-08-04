@@ -1,10 +1,10 @@
 const AWS = require('aws-sdk');
-const handleSuccess = require('./handleResponse');
+const handleResponse = require('./handleResponse');
 
 function scanController() {
   const docClient = new AWS.DynamoDB.DocumentClient();
   const table = 'CollarData';
-  const handle = handleSuccess();
+  const handle = handleResponse();
   const queryObj = {};
 
   function get(req, res) {
@@ -33,8 +33,10 @@ function scanController() {
         else handle.handleSuccess(data.Items, res);
       });
     } else {
-      res.status(400);
-      res.send('Barking value required: i.e. barking=medium');
+      res.json({
+        message: 'Barking value required: i.e. barking=medium',
+        statusCode: 400
+      });
     }
   }
   function getByActivity(req, res) {
@@ -51,8 +53,10 @@ function scanController() {
         else handle.handleSuccess(data.Items, res);
       });
     } else {
-      res.status(400);
-      res.send('Activity value required: i.e. activity=low');
+      res.json({
+        message: 'Activity value required: i.e. activity=low',
+        statusCode: 400
+      });
     }
   }
   function getByLocation(req, res) {
@@ -70,8 +74,10 @@ function scanController() {
         else handle.handleSuccess(data.Items, res);
       });
     } else {
-      res.status(400);
-      res.send('Location (zipcode) value required: i.e. location=37901');
+      res.json({
+        message: 'Location (zipcode) value required: i.e. location=37901',
+        statusCode: 400
+      });
     }
   }
   function getByCollar(req, res) {
@@ -88,8 +94,10 @@ function scanController() {
         else handle.handleSuccess(data.Items, res);
       });
     } else {
-      res.status(400);
-      res.send('CollarId value required: i.e. collarId=abc1');
+      res.json({
+        message: 'CollarId value required: i.e. collarId=abc1',
+        statusCode: 400
+      });
     }
   }
   return {
