@@ -2,8 +2,6 @@ require('should');
 
 const request = require('supertest');
 
-// process.env.ENV = 'Test';
-
 const app = require('../app.js');
 
 const agent = request.agent(app);

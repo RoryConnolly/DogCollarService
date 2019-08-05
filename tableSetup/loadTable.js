@@ -26,8 +26,10 @@ mockData.forEach((collarResponse) => {
 
   docClient.put(params, (err, data) => {
     if (err) {
+      // eslint-disable-next-line no-console
       console.error('Unable to add collar', collarResponse.collarId, '. Error JSON:', JSON.stringify(err, null, 2));
     } else {
+      // eslint-disable-next-line no-console
       console.log('PutItem succeeded:', JSON.stringify(data, null, 2));
     }
   });
