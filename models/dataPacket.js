@@ -1,16 +1,18 @@
-const mongoose = require('mongoose');
+// TODO add schema validation to the collar response data objects
 
-const { Schema } = mongoose;
+// const mongoose = require('mongoose');
 
-const dataModel = new Schema(
-  {
-    collarId: { type: String },
-    collarResp: { type: String },
-    dogName: { type: String },
-    barking: { type: String },
-    activity: { type: String },
-    location: { type: String },
-  }
-);
+// const { Schema } = mongoose;
 
-module.exports = mongoose.model('dataPacket', dataModel);
+// const dataModel = new Schema(
+//   {
+//     collarId: { type: String },
+//     collarResp: { type: String },
+//     dogName: { type: String },
+//     barking: { type: String },
+//     activity: { type: String },
+//     location: { type: String },
+//   }
+// );
+
+// module.exports = mongoose.model('dataPacket', dataModel);

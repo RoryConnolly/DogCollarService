@@ -1,263 +1,364 @@
 {
-  "openapi": "3.0.0",
-  "info": {
-      "version": "1.0.0",
-      "title": "Dog Collar Api",
-      "description": "A simple API to receive JSON Payloads from Dog Collars and save and query them to a DynamoDB",
-      "license": {
-          "name": "MIT",
-          "url": "https://opensource.org/licenses/MIT"
-      }
-  },
-  "servers": [
-      {
-          "url": "/api/",
-          "description": "Local Dev"
-      },
-      {
-          "url": "/api/",
-          "description": "With AWS"
-      }
-  ],
-  "tags": [
-      {
-          "name": "Dog Collar Requests",
-          "description": "API for Dog Collar Responses"
-      }
-  ],
-  "consumes": [
-      "application/json"
-  ],
-  "produces": [
-      "application/json"
-  ],
-  "paths": {
-      "/fetch/all": {
-          "get": {
-              "tags": [
-                  "Dog Collar Requests"
-              ],
-              "summary": "Gets all Dog Collar Responses from the DB",
-              "responses": {
-                  "200": {
-                      "description": "Success",
-                      "schema": {
-                          "$ref": "#/definitions/Cats"
-                      }
-                  },
-                  "400":{
-                    "description": "Bad Request"
-                  }
-              }
-          }
-      },
-      "/fetch/allByCollarId": {
-        "get": {
-            "tags": [
-                "Dog Collar Requests"
-            ],
-            "summary": "Gets all Dog Collar Responses from the DB",
-            "requestBody": {
-              "description": "CollarResponse Object",
-              "required": true,
-              "content": {
-                  "application/json": {
-                      "schema": {
-                          "$ref": "#/definitions/CollarResponse"
-                      }
-                  }
-              }
-          },
-            "responses": {
-                "200": {
-                    "description": "Succes",
-                    "schema": {
-                        "$ref": "CollarResponse Object"
+    "openapi": "3.0.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Dog Collar Api",
+        "description": "A simple API to receive JSON Payloads from Dog Collars and save and query them to a DynamoDB",
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "servers": [
+        {
+            "url": "/api/",
+            "description": "Local Dev"
+        },
+        {
+            "url": "/api/",
+            "description": "With AWS"
+        }
+    ],
+    "tags": [
+        {
+            "name": "Dog Collar Requests",
+            "description": "API for Dog Collar Responses"
+        }
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/fetch/all": {
+            "get": {
+                "tags": [
+                    "Dog Collar Requests"
+                ],
+                "summary": "Gets all Dog Collar Responses from the DB",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400":{
+                      "description": "Bad Request"
                     }
                 }
             }
-        }
-      },
-      "/fetch/SpecificCollarRespById": {
-        "get": {
-            "tags": [
-                "Dog Collar Requests"
-            ],
-            "summary": "Gets all Dog Collar Responses from the DB",
-            "requestBody": {
-              "description": "CollarResponse Object",
-              "required": true,
-              "content": {
-                  "application/json": {
-                      "schema": {
-                          "$ref": "#/definitions/CollarResponse"
-                      }
-                  }
-              }
           },
-            "responses": {
-                "200": {
-                    "description": "Succes",
-                    "schema": {
-                        "$ref": "CollarResponse Object"
+        "/fetch/SpecificCollarRespByID": {
+            "get": {
+                "tags": [
+                    "Dog Collar Requests"
+                ],
+                "summary": "Gets a specific Dog Collar Responses from the DB",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "Values",
+                        "required": true,
+                        "description": "Cat with id",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                              "collarId": {
+                                "type": "string"
+                              },
+                              "collarResp": {
+                                "type": "string"
+                              }
+                            },
+                            "example": {
+                              "collarId": "abc1",
+                              "collarResp": "2"
+                            }
+                        },
+                        "style": "form",
+                        "explode": "true"
+                      }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "404": {
+                        "description": "Failed. Cat not found."
                     }
                 }
             }
-        }
-      },
-    "/pushCollarData": {
-      "post": {
+    },
+    "/fetch/allByCollarID": {
+      "get": {
           "tags": [
               "Dog Collar Requests"
           ],
-          "summary": "Create a new cat in system",
-          "requestBody": {
-              "description": "CollarResponse Object",
-              "required": true,
-              "content": {
-                  "application/json": {
-                      "schema": {
-                          "$ref": "#/definitions/CollarResponse"
+          "summary": "Gets a specific Dog Collar Responses from the DB",
+          "parameters": [
+              {
+                  "in": "query",
+                  "name": "Values",
+                  "required": true,
+                  "description": "Cat with id",
+                  "schema": {
+                      "type": "object",
+                      "properties": {
+                        "collarId": {
+                          "type": "string"
+                        }
+                      },
+                      "example": {
+                        "collarId": "abc1"
                       }
-                  }
-              }
-          },
-          "produces": [
-              "application/json"
+                  },
+                  "style": "form",
+                  "explode": "true"
+                }
           ],
           "responses": {
               "200": {
-                  "description": "OK",
+                  "description": "OK"
+              },
+              "404": {
+                  "description": "Failed. Cat not found."
+              }
+          }
+      }
+  },
+    "/fetch/allByBarking": {
+      "get": {
+          "tags": [
+              "Dog Collar Requests"
+          ],
+          "summary": "Gets a specific Dog Collar Responses from the DB",
+          "parameters": [
+              {
+                  "in": "query",
+                  "name": "Values",
+                  "required": true,
+                  "description": "Cat with id",
                   "schema": {
-                      "$ref": "#/definitions/id"
+                      "type": "object",
+                      "properties": {
+                        "barking": {
+                          "type": "string",
+                          "enum": [
+                            "low",
+                            "medium",
+                            "high"
+                          ]
+                        }
+                      },
+                      "example": {
+                        "barking": "low"
+                      }
+                  },
+                  "style": "form",
+                  "explode": "true"
+                }
+          ],
+          "responses": {
+              "200": {
+                  "description": "OK"
+              },
+              "404": {
+                  "description": "Failed. Cat not found."
+              }
+          }
+      }
+  },
+  "/fetch/allByActivity": {
+    "get": {
+        "tags": [
+            "Dog Collar Requests"
+        ],
+        "summary": "Gets a specific Dog Collar Responses from the DB",
+        "parameters": [
+            {
+                "in": "query",
+                "name": "Values",
+                "required": true,
+                "description": "Cat with id",
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                      "activity": {
+                        "type": "string",
+                        "enum": [
+                          "low",
+                          "medium",
+                          "high"
+                        ]
+                      }
+                    },
+                    "example": {
+                      "activity": "high"
+                    }
+                },
+                "style": "form",
+                "explode": "true"
+              }
+        ],
+        "responses": {
+            "200": {
+                "description": "OK"
+            },
+            "404": {
+                "description": "Failed. Cat not found."
+            }
+        }
+    }
+  },
+  "/fetch/allBylocation": {
+    "get": {
+        "tags": [
+            "Dog Collar Requests"
+        ],
+        "summary": "Gets a specific Dog Collar Responses from the DB",
+        "parameters": [
+            {
+                "in": "query",
+                "name": "Values",
+                "required": true,
+                "description": "Cat with id",
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                      "location": {
+                        "type": "string"
+                      }
+                    },
+                    "example": {
+                      "location": "90210"
+                    }
+                },
+                "style": "form",
+                "explode": "true"
+              }
+        ],
+        "responses": {
+            "200": {
+                "description": "OK"
+            },
+            "404": {
+                "description": "Failed. Cat not found."
+            }
+        }
+    }
+  },
+  "/pushCollarData": {
+    "post": {
+        "tags": [
+            "Dog Collar Requests"
+        ],
+        "summary": "Gets a specific Dog Collar Responses from the DB",
+        "requestBody": {
+                "required": true,
+                "description": "Cat with id",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "collarId": {
+                          "type": "string"
+                        },
+                        "collarResp": {
+                          "type": "string"
+                        }
+                      },
+                      "example": {
+                        "collarId": "abc4",
+                        "collarResp": "1",
+                        "dogName": "Tyson",
+                        "barking": "medium",
+                        "activity": "low",
+                        "location": "37901"
+                      }
+                    }
                   }
               },
-              "400": {
-                  "description": "Failed. Bad post data."
-              }
-          }
-      }
-    },
-  "/remove": {
-    "delete": {
-      "summary": "Delete cat with given ID",
-      "tags": [
-          "Dog Collar Requests"
-      ],
-      "parameters": [
-          {
-              "in": "path",
-              "name": "id",
-              "required": true,
-              "description": "Delete Dog Collar Response with id",
-              "schema": {
-                  "$ref": "#/definitions/id"
-              }
-          }
-      ],
-      "responses": {
-          "200": {
-              "description": "OK",
-              "schema": {
-                  "$ref": "#/definitions/id"
-              }
+                "style": "form",
+                "explode": "true"
           },
-          "404": {
-              "description": "Failed. Cat not found."
-          }
-      }
-  }
-},
-"/fetch/allByBarking": {
-  "get": {
-    "tags": [
-        "Dog Collar Requests"
-    ],
-    "summary": "Gets all Dog Collar Responses from the DB",
-    "requestBody": {
-      "description": "CollarResponse Object",
-      "required": true,
-      "content": {
-          "application/json": {
-              "schema": {
-                  "$ref": "#/definitions/CollarResponse"
+        "responses": {
+            "200": {
+                "description": "OK"
+            },
+            "404": {
+                "description": "Failed. Cat not found."
+            }
+        }
+    }
+  },
+    "/remove": {
+      "delete": {
+          "tags": [
+              "Dog Collar Requests"
+          ],
+          "summary": "Gets a specific Dog Collar Responses from the DB",
+          "parameters": [
+              {
+                  "in": "query",
+                  "name": "Values",
+                  "required": true,
+                  "description": "Cat with id",
+                  "schema": {
+                      "type": "object",
+                      "properties": {
+                        "collarId": {
+                          "type": "string"
+                        },
+                        "collarResp": {
+                          "type": "string"
+                        }
+                      },
+                      "example": {
+                        "collarId": "abc1",
+                        "collarResp": "20"
+                      }
+                  },
+                  "style": "form",
+                  "explode": "true"
+                }
+          ],
+          "responses": {
+              "200": {
+                  "description": "OK"
+              },
+              "404": {
+                  "description": "Failed. Cat not found."
               }
           }
       }
   },
-    "responses": {
-        "200": {
-            "description": "Succes",
-            "schema": {
-                "$ref": "CollarResponse Object"
+    "definitions": {
+        "id": {
+            "properties": {
+                "uuid": {
+                    "type": "string"
+                }
             }
-        }
-    }
-}
-},
-"/fetch/allByLocation": {
-  "get": {
-    "tags": [
-        "Dog Collar Requests"
-    ],
-    "summary": "Gets all Dog Collar Responses from the DB",
-    "requestBody": {
-      "description": "CollarResponse Object",
-      "required": true,
-      "content": {
-          "application/json": {
-              "schema": {
-                  "$ref": "#/definitions/CollarResponse"
-              }
-          }
-      }
-  },
-    "responses": {
-        "200": {
-            "description": "Succes",
-            "schema": {
-                "$ref": "CollarResponse Object"
+        },
+        "Cat": {
+            "type": "object",
+            "properties": {
+                "genus": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "isHungry": {
+                    "type": "boolean"
+                },
+                "lastFedDate": {
+                    "type": "string"
+                }
             }
-        }
-    }
-}
-},
-"/fetch/allByActivity": {
-  "get": {
-    "tags": [
-        "Dog Collar Requests"
-    ],
-    "summary": "Gets all Dog Collar Responses from the DB",
-    "requestBody": {
-      "description": "CollarResponse Object",
-      "required": true,
-      "content": {
-          "application/json": {
-              "schema": {
-                  "$ref": "#/definitions/CollarResponse"
-              }
-          }
-      }
-  },
-    "responses": {
-        "200": {
-            "description": "Succes",
-            "schema": {
-                "$ref": "CollarResponse Object"
-            }
-        }
-    }
-}
-},
-  "definitions": {
-      "id": {
-          "properties": {
-              "uuid": {
-                  "type": "string"
-              }
-          }
-      },
-      "CollarResponse": {
+        },
+        "CollarResponse": {
           "type": "object",
           "properties": {
               "collarId": {
@@ -280,18 +381,17 @@
               }
           }
       },
-      "Cats": {
-          "type": "object",
-          "properties": {
-              "cats": {
-                  "type": "object",
-                  "additionalProperties": {
-                      "$ref": "#/definitions/CollarResponse"
-                  }
-              }
-          }
-      }
+        "Cats": {
+            "type": "object",
+            "properties": {
+                "cats": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/Cat"
+                    }
+                }
+            }
+        }
+    }
   }
-}
-}
-
+  }
