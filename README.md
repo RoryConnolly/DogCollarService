@@ -3,23 +3,31 @@ A NodeJS microservice that reads data from dog collars and saves it down to and 
 
 ## Running the App
 ```bash
-
 # installs all the applications dependencies
 npm install
-
+```
+```bash
 # starts the node application
 npm start
+```
+Starts the application
 
+![Test Coverage](./resources/NpmStart.png)
+
+```bash
 # runs es-lint
 npm run lint
+```
+You will see the linting errors
 
+![Test Coverage](./resources/Lint.png)
+```bash
 # runs unit tests
 npm run test
 ```
-### Running standalone 
-TODO.
+You will see the Instabul provided test coverages when test is run
 
-![Test Coverage](../resources/testCoverage.png)
+![Test Coverage](./resources/testCoverage.png)
 
 
 ## Commit Requirements
@@ -58,4 +66,6 @@ With our configuration, the following types are allowed:
 NOTE: If your change falls into more than one of these, then it should probably be refactored into smaller commits.
 
 ### Helpful Links
+* [Swagger Documentation](http://ec2-52-91-239-59.compute-1.amazonaws.com:3999/swag-docs)
 * [GitHub Repository](https://github.com/RoryConnolly/DogCollarService)
+* [Post Man Collection](./documentation/DogCollar.postmanCollection.json)

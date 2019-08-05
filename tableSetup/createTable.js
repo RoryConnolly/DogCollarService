@@ -23,12 +23,12 @@ const params = {
   }
 };
 
-rdynamodb.createTable(params, (err, data) => {
+dynamodb.createTable(params, (err, data) => {
   if (err) {
     // eslint-disable-next-line no-console
     console.error('Unable to create table. Error JSON:', JSON.stringify(err, null, 2));
   } else {
-    // eslint-disable-next-line no-consoles
+    // eslint-disable-next-line no-console
     console.log('Created table. Table description JSON:', JSON.stringify(data, null, 2));
   }
 });
