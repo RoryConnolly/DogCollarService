@@ -19,7 +19,7 @@ npm run test
 ### Running standalone 
 TODO.
 
-![Test Coverage](./testCoverage.png)
+![Test Coverage](../resources/testCoverage.png)
 
 
 ## Commit Requirements
