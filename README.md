@@ -3,25 +3,24 @@ A NodeJS microservice that reads data from dog collars and saves it down to and 
 
 ## Running the App
 ```bash
-# run development mode (source maps, etc...)
+
+# installs all the applications dependencies
+npm install
+
+# starts the node application
 npm start
 
-# run local build (not minified and not in a honeycomb)
-npm start
-
-# run production mode (minified, obfuscated, cache busted, etc...).
-# if deploying to a honeycomb, this will configure the application to run behind an API gateway (Zuul)
-npm start
-
-# run lint
+# runs es-lint
 npm run lint
 
-# run unit tests
-npm test
-
+# runs unit tests
+npm run test
 ```
 ### Running standalone 
 TODO.
+
+![Test Coverage](./testCoverage.png)
+
 
 ## Commit Requirements
 We are following the conventional commit [spec](https://www.conventionalcommits.org/en/v1.0.0-beta.2/#specification) to allow for easier changelog management. The general format for a commit message should look like:
