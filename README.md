@@ -30,20 +30,22 @@ npm run test
 
 # Using this Service
 
-You can use this service in two ways, running it locally or by hitting the deployed endpoint. 
+You can use this service in two ways, running it locally or by hitting the deployed endpoint.
 
 ## AWS Enpoint
 
 ### Quick Links
 
-http://ec2-52-91-239-59.compute-1.amazonaws.com:3000/api/swag-docs  
+http://ec2-52-91-239-59.compute-1.amazonaws.com:3000/api/swag-docs
 http://ec2-52-91-239-59.compute-1.amazonaws.com:3000/api/fetch/all
 
-The endpoint is publically available at   
- * http://ec2-52-91-239-59.compute-1.amazonaws.com   
+The endpoint is publically available at
 
-Each of the different functions of the service is accessed by adding 
-* :3000/api
+        http://ec2-52-91-239-59.compute-1.amazonaws.com
+
+Each of the different functions of the service is accessed by adding
+
+        :3000/api
 
 Followed by routes such as:
 
@@ -57,7 +59,7 @@ Followed by routes such as:
         /pushCollarData
 
 
-  The following routes also require query parameters such as 
+  The following routes also require query parameters such as
 
         /fetch/allByCollarId?collarId=abc3
         /fetch/SpecificCollarRespByID?collarId=abc1&collarResp=1
