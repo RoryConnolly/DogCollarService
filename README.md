@@ -1,5 +1,5 @@
 # DogCollarService
-A NodeJS microservice that reads data from dog collars and saves it down to and queries a DynamoDB
+A NodeJS microservice that reads data from dog collars and saves it down to and  a DynamoDB. It also allows for querying and removing data from the DynamoDB.
 
 ## Running the App
 ```bash
@@ -30,7 +30,7 @@ npm run test
 
 # Using this Service
 
-You can use this service in two ways, locally or by hitting the deployed endpoint. 
+You can use this service in two ways, running it locally or by hitting the deployed endpoint. 
 
 ## AWS Enpoint
 
@@ -45,40 +45,44 @@ The endpoint is publically available at
 Each of the different functions of the service is accessed by adding 
 * :3000/api
 
-Followed by routes such as 
-  * /fetch/all
-  * /fetch/allByCollarId
-  * /fetch/SpecificCollarRespByID
-  * /fetch/allByBarking
-  * /fetch/allByActivity
-  * /fetch/allByLocation
-  * /remove
-  * /pushCollarData
+Followed by routes such as:
+
+        /fetch/all
+        /fetch/allByCollarId
+        /fetch/SpecificCollarRespByID
+        /fetch/allByBarking
+        /fetch/allByActivity
+        /fetch/allByLocation
+        /remove
+        /pushCollarData
+
 
   The following routes also require query parameters such as 
 
-  * /fetch/allByCollarId?collarId=abc3
-  * /fetch/SpecificCollarRespByID?collarId=abc1&collarResp=1
-  * /fetch/allByBarking?barking=low
-  * /fetch/allByActivity?activity=low
-  * /fetch/allByLocation?location=37901
-  * /remove?collarId=abc3&collarResp=11
+        /fetch/allByCollarId?collarId=abc3
+        /fetch/SpecificCollarRespByID?collarId=abc1&collarResp=1
+        /fetch/allByBarking?barking=low
+        /fetch/allByActivity?activity=low
+        /fetch/allByLocation?location=37901
+        /remove?collarId=abc3&collarResp=11
 
-  The following route requires a request object  
-  * /pushCollarData
+  The following route requires a request object:
 
-          Example request object:
+        /pushCollarData
 
-        { 
-          activity: "medium",   
-          location: "90210",   
-          barking: "low",   
-          dogName: "Dash",   
-          collarResp: "1",   
-          collarId: "abc1" 
+
+  Example request object:
+
+        {
+          activity: "medium",
+          location: "90210",
+          barking: "low",
+          dogName: "Dash",
+          collarResp: "1",
+          collarId: "abc1"
         }
 
-## Example Endpoints 
+## Example Endpoints
 
 http://ec2-52-91-239-59.compute-1.amazonaws.com:3000/api/fetch/SpecificCollarRespByID?collarId=abc1&collarResp=1
 
@@ -91,17 +95,17 @@ http://ec2-52-91-239-59.compute-1.amazonaws.com:3000/api/fetch/allByActivity?act
 ----------
 ## Running Locally
 
-It can be run locally by cloning this repo and installing AWS CLI and then in your terminal window running:
-
+The service can be run locally by cloning this repo and installing the AWS CLI and then in your terminal window running:
+```bash
 * aws configure
-
-You will be prompted for aws access key and aws secret access key. These are for accessing the DynamoDb (please contact the repo owner for these).
+```
+You will be prompted for AWS access key and AWS secret access key. These are for accessing the DynamoDb (please contact the repo owner for these).
 Then in your terminal window run:
 
-
+```bash
 * npm install
 * npm start
-
+```
 
 You should see a notification in your terminal that your server is now running locally on port:3000. You can now hit this service in your browser using the following urls:
 
@@ -110,7 +114,7 @@ http://localhost:3000/api/swag-docs
 
 http://localhost:3000/api/fetch/all
 * Returns all the dog collar responses in database
-  * Caution may cause performance issues if database is large
+  * Caution - may cause performance issues if database is large
 
 http://localhost:3000/api/fetch/allByCollarId?collarId=abc3
 * Returns all responses associated with a specific collar
@@ -138,6 +142,6 @@ http://localhost:3000/api/remove?collarId=abc3&collarResp=11
 
 http://localhost:3000/api/pushCollarData
 * Returns a specific collar responses
-  * Takes 'collarId' and 'collarResp' as query params(this one requires a request object)
+  * Takes 'collarId' and 'collarResp' as query params(this one requires a request object - see exmple above)
 
 
