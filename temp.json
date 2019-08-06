@@ -1,0 +1,68 @@
+{
+  "createdAt": "2019-08-06T15:31:47.274Z",
+  "partitionKey": "54668-30073-6ad9de2",
+  "activityType": "BARK",
+  "sortKey": "1565105507274_BARK",
+  "actionData": {
+    "duration": 13
+  }
+},
+{
+  "createdAt": "2019-08-06T15:32:43.621Z",
+  "partitionKey": "54668-30073-6ad9de2",
+  "activityType": "PHYSICAL_ACTIVITY",
+  "sortKey": "1565105563621_PHYSICAL_ACTIVITY",
+  "actionData": {
+    "duration": 76
+  }
+},
+{
+  "createdAt": "2019-08-06T15:32:50.542Z",
+  "partitionKey": "54668-30073-6ad9de2",
+  "activityType": "LOCATION",
+  "sortKey": "1565105570542_LOCATION",
+  "actionData": {
+    "location": {
+      "lat": "10.11",
+      "long": "99.19"
+    }
+  }
+},
+{
+  "createdAt": "2019-08-06T15:32:53.741Z",
+  "partitionKey": "54668-30073-6ad9de2",
+  "activityType": "PHYSICAL_ACTIVITY",
+  "sortKey": "1565105573741_PHYSICAL_ACTIVITY",
+  "actionData": {
+    "duration": 76
+  }
+},
+{
+  "createdAt": "2019-08-06T15:32:55.546Z",
+  "partitionKey": "54668-30073-6ad9de2",
+  "activityType": "LOCATION",
+  "sortKey": "1565105575546_LOCATION",
+  "actionData": {
+    "location": {
+      "lat": "10.11",
+      "long": "99.19"
+    }
+  }
+},
+{
+  "createdAt": "2019-08-06T15:32:57.856Z",
+  "partitionKey": "54668-30073-6ad9de2",
+  "activityType": "BARK",
+  "sortKey": "1565105577856_BARK",
+  "actionData": {
+    "duration": 13
+  }
+},
+{
+  "activity": "low",
+  "location": "90210",
+  "partitionKey": "abc1",
+  "barking": "high",
+  "dogName": "Dash",
+  "sortKey": "96"
+}

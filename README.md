@@ -51,9 +51,9 @@ Each of the different functions of the service is accessed by adding
 Followed by routes such as:
 
         /fetch/all
-        /fetch/allByCollarId
-        /fetch/SpecificCollarRespByID
-        /fetch/allByBarking
+        /fetch/allByPartitionKey
+        /fetch/ByPartitionAndSortKeys
+        /fetch/ByPartitionAndActivity
         /fetch/allByActivity
         /fetch/allByLocation
         /remove
@@ -62,12 +62,12 @@ Followed by routes such as:
 
   The following routes also require query parameters such as
 
-        /fetch/allByCollarId?collarId=abc3
-        /fetch/SpecificCollarRespByID?collarId=abc1&collarResp=1
-        /fetch/allByBarking?barking=low
+        /fetch/allByPartitionKey?partitionKey=abc3
+        /fetch/ByPartitionAndSortKeys?partitionKey=abc1&sortKey=1
+        /fetch/ByPartitionAndActivity?barking=low
         /fetch/allByActivity?activity=low
         /fetch/allByLocation?location=37901
-        /remove?collarId=abc3&collarResp=11
+        /remove?partitionKey=abc3&sortKey=11
 
   The following route requires a request object:
 
@@ -81,15 +81,15 @@ Followed by routes such as:
           location: "90210",
           barking: "low",
           dogName: "Dash",
-          collarResp: "1",
-          collarId: "abc1"
+          sortKey: "1",
+          partitionKey: "abc1"
         }
 
 ## Example Endpoints
 
-http://ec2-52-91-239-59.compute-1.amazonaws.com:3000/api/fetch/SpecificCollarRespByID?collarId=abc1&collarResp=1
+http://ec2-52-91-239-59.compute-1.amazonaws.com:3000/api/fetch/ByPartitionAndSortKeys?partitionKey=abc1&sortKey=1
 
-http://ec2-52-91-239-59.compute-1.amazonaws.com:3000/api/fetch/allByBarking?barking=low
+http://ec2-52-91-239-59.compute-1.amazonaws.com:3000/api/fetch/ByPartitionAndActivity?barking=low
 
 http://ec2-52-91-239-59.compute-1.amazonaws.com:3000/api/allByLocation?location=37901
 
@@ -121,12 +121,12 @@ http://localhost:3000/api/fetch/all
       Returns all the dog collar responses in database
       Caution - may cause performance issues if database is large
 
-http://localhost:3000/api/fetch/allByCollarId?collarId=abc3   
+http://localhost:3000/api/fetch/allByPartitionKey?partitionKey=abc3   
 
       Returns all responses associated with a specific collar
-      Takes 'collarId' as a query param
+      Takes 'partitionKey' as a query param
 
-http://localhost:3000/api/fetch/allByBarking?barking=low  
+http://localhost:3000/api/fetch/ByPartitionAndActivity?barking=low  
 
       Returns all responses with a specific level of barking
       Takes 'barking' as a query param
@@ -141,19 +141,19 @@ http://localhost:3000/api/fetch/allByLocation?location=37901
       Returns all responses within a specific zipcode
       Takes 'location' as a query param
 
-http://localhost:3000/api/fetch/SpecificCollarRespByID?collarId=abc1&collarResp=1  
+http://localhost:3000/api/fetch/ByPartitionAndSortKeys?partitionKey=abc1&sortKey=1  
 
       Returns a specific collar responses
-      Takes 'collarId' and 'collarResp' as query params
+      Takes 'partitionKey' and 'sortKey' as query params
 
-http://localhost:3000/api/remove?collarId=abc3&collarResp=11  
+http://localhost:3000/api/remove?partitionKey=abc3&sortKey=11  
 
       Removes a specific collar repsonses from the database
-      Takes 'collarId' and 'collarResp' as query params
+      Takes 'partitionKey' and 'sortKey' as query params
 
 http://localhost:3000/api/pushCollarData  
 
       Returns a specific collar responses
-      Takes 'collarId' and 'collarResp' as query params(this one requires a request object - see example above)
+      Takes 'partitionKey' and 'sortKey' as query params(this one requires a request object - see example above)
 
 

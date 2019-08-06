@@ -6,8 +6,8 @@
 
 // const dataModel = new Schema(
 //   {
-//     collarId: { type: String },
-//     collarResp: { type: String },
+//     partitionKey: { type: String },
+//     sortKey: { type: String },
 //     dogName: { type: String },
 //     barking: { type: String },
 //     activity: { type: String },

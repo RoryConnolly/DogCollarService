@@ -3,7 +3,7 @@ const handleResponse = require('./handleResponse');
 
 function scanController() {
   const docClient = new AWS.DynamoDB.DocumentClient();
-  const table = 'CollarData';
+  const table = 'code-challenge-203';
   const handle = handleResponse();
   const queryObj = {};
 
@@ -19,13 +19,16 @@ function scanController() {
       }
     });
   }
-  function getByBarking(req, res) {
-    if (req.query.barking) {
-      queryObj.barking = req.query.barking;
+  function getAllByActivityType(req, res) {
+    if (req.query.activityType
+      && (req.query.activityType === 'BARK'
+      || req.query.activityType === 'PHYSICAL_ACTIVITY'
+      || req.query.activityType === 'LOCATION')) {
+      queryObj.activityType = req.query.activityType;
       const params = {
         TableName: table,
-        ExpressionAttributeValues: { ':b': queryObj.barking },
-        FilterExpression: 'barking = :b'
+        ExpressionAttributeValues: { ':a': queryObj.activityType },
+        FilterExpression: 'activityType = :a'
       };
 
       docClient.scan(params, (err, data) => {
@@ -34,7 +37,34 @@ function scanController() {
       });
     } else {
       res.json({
-        message: 'Barking value required: i.e. barking=medium',
+        message: 'Valid query parameter required',
+        statusCode: 400
+      });
+    }
+  }
+  function getByPartitionAndActivity(req, res) {
+    if ((req.query.partitionKey && req.query.activityType) && (req.query.activityType === 'BARK'
+      || req.query.activityType === 'PHYSICAL_ACTIVITY'
+      || req.query.activityType === 'LOCATION')) {
+      queryObj.partitionKey = req.query.partitionKey;
+      queryObj.activityType = req.query.activityType;
+
+      const params = {
+        TableName: table,
+        ExpressionAttributeValues: {
+          ':a': queryObj.activityType,
+          ':k': queryObj.partitionKey
+        },
+        FilterExpression: 'activityType = :a and partitionKey =:k'
+      };
+
+      docClient.scan(params, (err, data) => {
+        if (err) handle.handleError(err, res);
+        else handle.handleSuccess(data.Items, res);
+      });
+    } else {
+      res.json({
+        message: 'Valid query parameter required',
         statusCode: 400
       });
     }
@@ -81,12 +111,12 @@ function scanController() {
     }
   }
   function getByCollar(req, res) {
-    if (req.query.collarId) {
-      queryObj.collarId = req.query.collarId;
+    if (req.query.partitionKey) {
+      queryObj.partitionKey = req.query.partitionKey;
       const params = {
         TableName: table,
-        ExpressionAttributeValues: { ':a': queryObj.collarId },
-        FilterExpression: 'collarId = :a'
+        ExpressionAttributeValues: { ':a': queryObj.partitionKey },
+        FilterExpression: 'partitionKey = :a'
       };
 
       docClient.scan(params, (err, data) => {
@@ -95,13 +125,13 @@ function scanController() {
       });
     } else {
       res.json({
-        message: 'CollarId value required: i.e. collarId=abc1',
+        message: 'Valid query parameter required',
         statusCode: 400
       });
     }
   }
   return {
-    get, getByBarking, getByActivity, getByLocation, getByCollar
+    get, getAllByActivityType, getByPartitionAndActivity, getByActivity, getByLocation, getByCollar
   };
 }
 
