@@ -322,17 +322,31 @@
                         "partitionKey": {
                           "type": "string"
                         },
-                        "sortKey": {
+                        "activityType": {
                           "type": "string"
+                        },
+                        "actionData": {
+                          "type": "object",
+                          "location": {
+                            "type": "object",
+                            "lat": {
+                              "type": "string"
+                            },
+                            "long": {
+                              "type": "string"
+                            }
+                          }
                         }
                       },
                       "example": {
-                        "partitionKey": "abc4",
-                        "sortKey": "1",
-                        "dogName": "Tyson",
-                        "barking": "medium",
-                        "activity": "low",
-                        "location": "37901"
+                        "partitionKey": "12345-12345-1ab2cd3",
+                        "activityType": "LOCATION",
+                        "actionData": {
+                          "location": {
+                            "lat": "11.17",
+                            "long": "90.33"
+                          }
+                        }
                       }
                     }
                   }
@@ -340,14 +354,17 @@
                 "style": "form",
                 "explode": "true"
           },
-        "responses": {
+          "responses": {
             "200": {
-                "description": "success"
+              "description": "success"
             },
-            "404": {
-                "description": "Failed. Cat not found."
+            "400": {
+              "description": "valid query parameter required"
+            },
+            "500": {
+              "description": "server side error"
             }
-        }
+          }
     }
   },
     "/remove": {

@@ -1,6 +1,17 @@
 const AWS = require('aws-sdk');
 const handleResponse = require('./handleResponse');
 
+function createSortKey(activityType) {
+  let randomNum = '';
+  const characters = '0123456789';
+  for (let i = 0; i < 13; i += 1) {
+    randomNum += characters.charAt(Math.floor(Math.random() * 10));
+  }
+  const sortKey = randomNum.concat('_', activityType);
+
+  return sortKey;
+}
+
 function docClientController() {
   const docClient = new AWS.DynamoDB.DocumentClient();
   const table = 'code-challenge-203';
@@ -36,18 +47,34 @@ function docClientController() {
   }
 
   function post(req, res) {
-    // const currentDate = new Date();
+    const currentDate = new Date().toISOString();
+
     if (
       req.body.partitionKey
-      && req.body.sortKey
-      && req.body.barking
-      && req.body.activity
-      && req.body.location
-      && req.body.dogName
+      && req.body.activityType
+      && req.body.actionData
     ) {
+      const request = {};
+      request.createdAt = currentDate;
+      request.partitionKey = req.body.partitionKey;
+      request.activityType = req.body.activityType;
+      request.sortKey = createSortKey(request.activityType);
+      request.actionData = req.body.actionData;
+
+      if (request.activityType === 'LOCATION' && (request.actionData.location.lat) && (request.actionData.location.long)) {
+        request.actionData.location = req.body.actionData.location;
+      } else if ((request.activityType === 'PHYSICAL_ACTIVITY' || request.activityType === 'BARK') && request.actionData.duration) {
+        request.actionData.duration = req.body.actionData.duration;
+      } else {
+        res.json({
+          message: 'Invalid request object',
+          statusCode: 400
+        });
+      }
+
       const params = {
         TableName: 'code-challenge-203',
-        Item: req.body
+        Item: request
       };
 
       docClient.put(params, (err) => {
