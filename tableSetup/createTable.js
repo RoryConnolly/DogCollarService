@@ -1,5 +1,4 @@
 const AWS = require('aws-sdk');
-// const handleSuccess = require('../controllers/handleResponse');
 
 AWS.config.update({
   region: 'us-east-1',
@@ -7,8 +6,6 @@ AWS.config.update({
 });
 
 const dynamodb = new AWS.DynamoDB();
-// TODO - fix handleResponse for all types
-// const handle = handleSuccess();
 
 const params = {
   TableName: 'CollarData',
@@ -28,8 +25,10 @@ const params = {
 
 dynamodb.createTable(params, (err, data) => {
   if (err) {
+    // eslint-disable-next-line no-console
     console.error('Unable to create table. Error JSON:', JSON.stringify(err, null, 2));
   } else {
+    // eslint-disable-next-line no-console
     console.log('Created table. Table description JSON:', JSON.stringify(data, null, 2));
   }
 });
