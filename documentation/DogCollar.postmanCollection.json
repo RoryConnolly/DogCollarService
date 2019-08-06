@@ -6,12 +6,12 @@
 	},
 	"item": [
 		{
-			"name": "Get a specific CollarData Response by collarId and  collarResp",
+			"name": "Get a specific CollarData Response by partitionKey and  sortKey",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/api/fetch/SpecificCollarRespByID?collarId=abc1&collarResp=1",
+					"raw": "http://localhost:3000/api/fetch/SpecificResponseBySortKey?partitionKey=abc1&sortKey=1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -20,15 +20,15 @@
 					"path": [
 						"api",
 						"fetch",
-						"SpecificCollarRespByID"
+						"SpecificResponseBySortKey"
 					],
 					"query": [
 						{
-							"key": "collarId",
+							"key": "partitionKey",
 							"value": "abc1"
 						},
 						{
-							"key": "collarResp",
+							"key": "sortKey",
 							"value": "1"
 						}
 					]
@@ -152,7 +152,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"activity\": \"low\",\n    \"location\": \"37901\",\n    \"barking\": \"high\",\n    \"dogName\": \"Bouncer\",\n    \"collarResp\": \"11\",\n    \"collarId\": \"abc3\"\n}"
+					"raw": "{\n\t\"activity\": \"low\",\n    \"location\": \"37901\",\n    \"barking\": \"high\",\n    \"dogName\": \"Bouncer\",\n    \"sortKey\": \"11\",\n    \"partitionKey\": \"abc3\"\n}"
 				},
 				"url": {
 					"raw": "http://localhost:3000/api/pushCollarData",
@@ -170,7 +170,7 @@
 			"response": []
 		},
 		{
-			"name": "Delete Collar data entry from DB by collarID and collarResp",
+			"name": "Delete Collar data entry from DB by partitionKey and sortKey",
 			"request": {
 				"method": "DELETE",
 				"header": [],
@@ -179,7 +179,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://localhost:3000/api/remove?collarId=abc3&collarResp=11",
+					"raw": "http://localhost:3000/api/remove?partitionKey=abc3&sortKey=11",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -191,11 +191,11 @@
 					],
 					"query": [
 						{
-							"key": "collarId",
+							"key": "partitionKey",
 							"value": "abc3"
 						},
 						{
-							"key": "collarResp",
+							"key": "sortKey",
 							"value": "11"
 						}
 					]
@@ -209,7 +209,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/api/fetch/allByCollarId?collarId=abc2",
+					"raw": "http://localhost:3000/api/fetch/allByPartitionKey?partitionKey=abc2",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -218,11 +218,11 @@
 					"path": [
 						"api",
 						"fetch",
-						"allByCollarId"
+						"allByPartitionKey"
 					],
 					"query": [
 						{
-							"key": "collarId",
+							"key": "partitionKey",
 							"value": "abc2"
 						}
 					]

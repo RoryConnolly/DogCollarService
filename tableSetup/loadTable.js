@@ -11,23 +11,23 @@ const docClient = new AWS.DynamoDB.DocumentClient();
 console.log('Importing collar data into DynamoDB. Please wait.');
 
 const mockData = JSON.parse(fs.readFileSync('mockData.json', 'utf8'));
-mockData.forEach((collarResponse) => {
+mockData.forEach((response) => {
   const params = {
-    TableName: 'CollarData',
+    TableName: 'code-challenge-203',
     Item: {
-      collarId: collarResponse.collarId,
-      collarResp: collarResponse.collarResp,
-      barking: collarResponse.barking,
-      activity: collarResponse.activity,
-      location: collarResponse.location,
-      dogName: collarResponse.dogName
+      partitionKey: response.partitionKey,
+      sortKey: response.sortKey,
+      barking: response.barking,
+      activity: response.activity,
+      location: response.location,
+      dogName: response.dogName
     }
   };
 
   docClient.put(params, (err, data) => {
     if (err) {
       // eslint-disable-next-line no-console
-      console.error('Unable to add collar', collarResponse.collarId, '. Error JSON:', JSON.stringify(err, null, 2));
+      console.error('Unable to add collar', response.partitionKey, '. Error JSON:', JSON.stringify(err, null, 2));
     } else {
       // eslint-disable-next-line no-console
       console.log('PutItem succeeded:', JSON.stringify(data, null, 2));

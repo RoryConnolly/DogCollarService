@@ -8,14 +8,14 @@ AWS.config.update({
 const dynamodb = new AWS.DynamoDB();
 
 const params = {
-  TableName: 'CollarData',
+  TableName: 'TestCollarData',
   KeySchema: [
-    { AttributeName: 'collarId', KeyType: 'HASH' }, // Partition key
-    { AttributeName: 'collarResp', KeyType: 'RANGE' } // Sort key
+    { AttributeName: 'partitionKey', KeyType: 'HASH' }, // Partition key
+    { AttributeName: 'sortKey', KeyType: 'RANGE' } // Sort key
   ],
   AttributeDefinitions: [
-    { AttributeName: 'collarId', AttributeType: 'S' },
-    { AttributeName: 'collarResp', AttributeType: 'S' }
+    { AttributeName: 'partitionKey', AttributeType: 'S' },
+    { AttributeName: 'sortKey', AttributeType: 'S' }
   ],
   ProvisionedThroughput: {
     ReadCapacityUnits: 10,

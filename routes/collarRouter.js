@@ -15,11 +15,11 @@ function routes() {
   const scController = scanController();
 
   router.route('/fetch/all').get(scController.get);
-  router.route('/fetch/allByCollarId').get(scController.getByCollar);
+  router.route('/fetch/allByPartitionKey').get(scController.getByCollar);
   router.route('/fetch/allByBarking').get(scController.getByBarking);
   router.route('/fetch/allByActivity').get(scController.getByActivity);
   router.route('/fetch/allByLocation').get(scController.getByLocation);
-  router.route('/fetch/SpecificCollarRespByID').get(controller.get);
+  router.route('/fetch/SpecificResponseBySortKey').get(controller.get);
   router.route('/remove').delete(controller.remove);
   router.route('/pushCollarData').post(controller.post);
 

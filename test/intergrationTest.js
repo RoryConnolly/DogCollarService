@@ -23,8 +23,8 @@ describe('Saving Collar Data Tests', () => {
       location: '90210',
       barking: 'high',
       dogName: 'Dash',
-      collarResp: '96',
-      collarId: 'abc1'
+      sortKey: '96',
+      partitionKey: 'abc1'
     };
 
     agent.post('/api/pushCollarData')
@@ -41,21 +41,21 @@ describe('Saving Collar Data Tests', () => {
       activity: 'low',
       location: '90210',
       barking: 'high',
-      collarResp: '96',
-      collarId: 'abc1'
+      sortKey: '96',
+      partitionKey: 'abc1'
     };
 
     agent.post('/api/pushCollarData')
       .send(collarData)
       .expect(400)
       .end((err, res) => {
-        res.body.message.should.equal('Invalid Schema i.e. activity: low, location: 37901, barking: high, dogName: Bouncer, collarResp: 5, collarId: abc6');
+        res.body.message.should.equal('Invalid Schema i.e. activity: low, location: 37901, barking: high, dogName: Bouncer, sortKey: 5, partitionKey: abc6');
         done();
       });
   });
 
   it('should get specific Collar Data Response from the db and return a 200', (done) => {
-    agent.get('/api/fetch/SpecificCollarRespByID?collarId=abc1&collarResp=96')
+    agent.get('/api/fetch/SpecificResponseBySortKey?partitionKey=abc1&sortKey=96')
       .expect(200)
       .end((err, res) => {
         res.body.message.should.equal('success');
@@ -67,10 +67,10 @@ describe('Saving Collar Data Tests', () => {
   });
 
   it('should not specific get Collar Data Responses when incorrect params are used', (done) => {
-    agent.get('/api/fetch/SpecificCollarRespByID?blah=blah')
+    agent.get('/api/fetch/SpecificResponseBySortKey?blah=blah')
       .expect(400)
       .end((err, res) => {
-        res.body.message.should.equal('Collar ID and Collar params required, i.e. collarId=abc2&collarResp=3');
+        res.body.message.should.equal('Collar ID and Collar params required, i.e. partitionKey=abc2&sortKey=3');
       });
     done();
   });
@@ -139,29 +139,29 @@ describe('Saving Collar Data Tests', () => {
   });
 
   it('should only get Collar Data Responses from the same collar from the db and return a 200', (done) => {
-    agent.get('/api/fetch/allByCollarId?collarId=abc3')
+    agent.get('/api/fetch/allByPartitionKey?partitionKey=abc3')
       .expect(200)
       .end((err, res) => {
         res.body.message.should.equal('success');
-        res.body.data[0].should.have.property('collarId', 'abc3');
-        res.body.data[1].should.have.property('collarId', 'abc3');
-        res.body.data[2].should.have.property('collarId', 'abc3');
+        res.body.data[0].should.have.property('partitionKey', 'abc3');
+        res.body.data[1].should.have.property('partitionKey', 'abc3');
+        res.body.data[2].should.have.property('partitionKey', 'abc3');
       });
     done();
   });
 
   it('should not get Collar Data Responses from the same collar when incorrect params are used', (done) => {
-    agent.get('/api/fetch/allByCollarId?blah=blah')
+    agent.get('/api/fetch/allByPartitionKey?blah=blah')
       .expect(400)
       .end((err, res) => {
-        res.body.message.should.equal('CollarId value required: i.e. collarId=abc1');
+        res.body.message.should.equal('partitionKey value required: i.e. partitionKey=abc1');
       });
     done();
   });
 
 
   it('should allow Collar Data Response to be deleted to the db and return a 200', (done) => {
-    agent.delete('/api/remove?collarId=abc1&collarResp=96')
+    agent.delete('/api/remove?partitionKey=abc1&sortKey=96')
       .expect(200)
       .end((err, res) => {
         res.body.message.should.equal('success');
@@ -173,7 +173,7 @@ describe('Saving Collar Data Tests', () => {
     agent.delete('/api/remove?blah=blah')
       .expect(400)
       .end((err, res) => {
-        res.body.message.should.equal('Collar ID and Collar params required, i.e. collarId=abc2&collarResp=3');
+        res.body.message.should.equal('Collar ID and Collar params required, i.e. partitionKey=abc2&sortKey=3');
       });
     done();
   });

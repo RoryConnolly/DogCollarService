@@ -48,7 +48,7 @@
                 }
             }
           },
-        "/fetch/SpecificCollarRespByID": {
+        "/fetch/SpecificResponseBySortKey": {
             "get": {
                 "tags": [
                     "Dog Collar Requests"
@@ -63,16 +63,16 @@
                         "schema": {
                             "type": "object",
                             "properties": {
-                              "collarId": {
+                              "partitionKey": {
                                 "type": "string"
                               },
-                              "collarResp": {
+                              "sortKey": {
                                 "type": "string"
                               }
                             },
                             "example": {
-                              "collarId": "abc1",
-                              "collarResp": "2"
+                              "partitionKey": "abc1",
+                              "sortKey": "2"
                             }
                         },
                         "style": "form",
@@ -89,7 +89,7 @@
                 }
             }
     },
-    "/fetch/allByCollarID": {
+    "/fetch/allByPartitionKey": {
       "get": {
           "tags": [
               "Dog Collar Requests"
@@ -104,12 +104,12 @@
                   "schema": {
                       "type": "object",
                       "properties": {
-                        "collarId": {
+                        "partitionKey": {
                           "type": "string"
                         }
                       },
                       "example": {
-                        "collarId": "abc1"
+                        "partitionKey": "abc1"
                       }
                   },
                   "style": "form",
@@ -261,16 +261,16 @@
                     "schema": {
                       "type": "object",
                       "properties": {
-                        "collarId": {
+                        "partitionKey": {
                           "type": "string"
                         },
-                        "collarResp": {
+                        "sortKey": {
                           "type": "string"
                         }
                       },
                       "example": {
-                        "collarId": "abc4",
-                        "collarResp": "1",
+                        "partitionKey": "abc4",
+                        "sortKey": "1",
                         "dogName": "Tyson",
                         "barking": "medium",
                         "activity": "low",
@@ -307,16 +307,16 @@
                   "schema": {
                       "type": "object",
                       "properties": {
-                        "collarId": {
+                        "partitionKey": {
                           "type": "string"
                         },
-                        "collarResp": {
+                        "sortKey": {
                           "type": "string"
                         }
                       },
                       "example": {
-                        "collarId": "abc1",
-                        "collarResp": "20"
+                        "partitionKey": "abc1",
+                        "sortKey": "20"
                       }
                   },
                   "style": "form",

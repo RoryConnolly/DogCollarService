@@ -1,47 +1,47 @@
 [
   {
-    "collarId" : "abc1" ,
-    "collarResp" : "1",
+    "partitionKey" : "abc1" ,
+    "sortKey" : "1",
     "barking" : "low",
     "activity" : "medium",
     "location" : "90210",
     "dogName" : "Dash"
  },
  {
-   "collarId" : "abc1" ,
-   "collarResp" : "2",
+   "partitionKey" : "abc1" ,
+   "sortKey" : "2",
    "barking" : "medium",
    "activity" : "high",
    "location" : "90210",
    "dogName" : "Dash"
 },
 {
- "collarId" : "abc1" ,
- "collarResp" : "3",
+ "partitionKey" : "abc1" ,
+ "sortKey" : "3",
  "barking" : "low",
  "activity" : "low",
  "location" : "90210",
  "dogName" : "Dash"
 },
 {
-  "collarId" : "abc2" ,
-  "collarResp" : "1",
+  "partitionKey" : "abc2" ,
+  "sortKey" : "1",
   "barking" : "high",
   "activity" : "high",
   "location" : "90210",
   "dogName" : "Pepsi"
 },
 {
-  "collarId" : "abc2" ,
-  "collarResp" : "2",
+  "partitionKey" : "abc2" ,
+  "sortKey" : "2",
   "barking" : "medium",
   "activity" : "high",
   "location" : "90210",
   "dogName" : "Pepsi"
 },
 {
-  "collarId" : "abc2" ,
-  "collarResp" : "3",
+  "partitionKey" : "abc2" ,
+  "sortKey" : "3",
   "barking" : "medium",
   "activity" : "low",
   "location" : "90210",

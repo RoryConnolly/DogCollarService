@@ -3,20 +3,20 @@ const handleResponse = require('./handleResponse');
 
 function docClientController() {
   const docClient = new AWS.DynamoDB.DocumentClient();
-  const table = 'CollarData';
+  const table = 'code-challenge-203';
   const handle = handleResponse();
   const queryObj = {};
 
   function get(req, res) {
-    if (req.query.collarId && req.query.collarResp) {
-      queryObj.collarId = req.query.collarId;
-      queryObj.collarResp = req.query.collarResp;
+    if (req.query.partitionKey && req.query.sortKey) {
+      queryObj.partitionKey = req.query.partitionKey;
+      queryObj.sortKey = req.query.sortKey;
 
       const params = {
         TableName: table,
         Key: {
-          collarId: queryObj.collarId,
-          collarResp: queryObj.collarResp,
+          partitionKey: queryObj.partitionKey,
+          sortKey: queryObj.sortKey,
         },
       };
 
@@ -29,7 +29,7 @@ function docClientController() {
       });
     } else {
       res.json({
-        message: 'Collar ID and Collar params required, i.e. collarId=abc2&collarResp=3',
+        message: 'Partition Key and Sort Key params required, i.e. partitionKey=abc2&sortKey=3',
         statusCode: 400
       });
     }
@@ -37,15 +37,15 @@ function docClientController() {
 
   function post(req, res) {
     if (
-      req.body.collarId
-      && req.body.collarResp
+      req.body.partitionKey
+      && req.body.sortKey
       && req.body.barking
       && req.body.activity
       && req.body.location
       && req.body.dogName
     ) {
       const params = {
-        TableName: 'CollarData',
+        TableName: 'code-challenge-203',
         Item: req.body
       };
 
@@ -58,22 +58,22 @@ function docClientController() {
       });
     } else {
       res.json({
-        message: 'Invalid Schema i.e. activity: low, location: 37901, barking: high, dogName: Bouncer, collarResp: 5, collarId: abc6',
+        message: 'Invalid Schema i.e. activity: low, location: 37901, barking: high, dogName: Bouncer, sortKey: 5, partitionKey: abc6',
         statusCode: 400
       });
     }
   }
 
   function remove(req, res) {
-    if (req.query.collarId && req.query.collarResp) {
-      queryObj.collarId = req.query.collarId;
-      queryObj.collarResp = req.query.collarResp;
+    if (req.query.partitionKey && req.query.sortKey) {
+      queryObj.partitionKey = req.query.partitionKey;
+      queryObj.sortKey = req.query.sortKey;
 
       const params = {
         TableName: table,
         Key: {
-          collarId: queryObj.collarId,
-          collarResp: queryObj.collarResp,
+          partitionKey: queryObj.partitionKey,
+          sortKey: queryObj.sortKey,
         },
       };
 
@@ -87,7 +87,7 @@ function docClientController() {
       });
     } else {
       res.json({
-        message: 'Collar ID and Collar params required, i.e. collarId=abc2&collarResp=3',
+        message: 'Partition Key and Sort Key required, i.e. partitionKey=abc2&sortKey=3',
         statusCode: 400
       });
     }

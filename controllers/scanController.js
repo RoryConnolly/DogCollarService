@@ -3,7 +3,7 @@ const handleResponse = require('./handleResponse');
 
 function scanController() {
   const docClient = new AWS.DynamoDB.DocumentClient();
-  const table = 'CollarData';
+  const table = 'code-challenge-203';
   const handle = handleResponse();
   const queryObj = {};
 
@@ -81,12 +81,12 @@ function scanController() {
     }
   }
   function getByCollar(req, res) {
-    if (req.query.collarId) {
-      queryObj.collarId = req.query.collarId;
+    if (req.query.partitionKey) {
+      queryObj.partitionKey = req.query.partitionKey;
       const params = {
         TableName: table,
-        ExpressionAttributeValues: { ':a': queryObj.collarId },
-        FilterExpression: 'collarId = :a'
+        ExpressionAttributeValues: { ':a': queryObj.partitionKey },
+        FilterExpression: 'partitionKey = :a'
       };
 
       docClient.scan(params, (err, data) => {
@@ -95,7 +95,7 @@ function scanController() {
       });
     } else {
       res.json({
-        message: 'CollarId value required: i.e. collarId=abc1',
+        message: 'partitionKey value required: i.e. partitionKey=abc1',
         statusCode: 400
       });
     }
