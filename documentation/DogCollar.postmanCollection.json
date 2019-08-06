@@ -11,7 +11,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/api/fetch/SpecificResponseBySortKey?partitionKey=abc1&sortKey=1",
+					"raw": "http://localhost:3000/api/fetch/ByPartitionAndSortKeys?partitionKey=abc1&sortKey=1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -20,7 +20,7 @@
 					"path": [
 						"api",
 						"fetch",
-						"SpecificResponseBySortKey"
+						"ByPartitionAndSortKeys"
 					],
 					"query": [
 						{
@@ -63,7 +63,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/api/fetch/allByBarking?barking=low",
+					"raw": "http://localhost:3000/api/fetch/ByPartitionAndActivity?barking=low",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -72,7 +72,7 @@
 					"path": [
 						"api",
 						"fetch",
-						"allByBarking"
+						"ByPartitionAndActivity"
 					],
 					"query": [
 						{

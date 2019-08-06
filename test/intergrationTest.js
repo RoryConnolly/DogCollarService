@@ -55,7 +55,7 @@ describe('Saving Collar Data Tests', () => {
   });
 
   it('should get specific Collar Data Response from the db and return a 200', (done) => {
-    agent.get('/api/fetch/SpecificResponseBySortKey?partitionKey=abc1&sortKey=96')
+    agent.get('/api/fetch/ByPartitionAndSortKeys?partitionKey=abc1&sortKey=96')
       .expect(200)
       .end((err, res) => {
         res.body.message.should.equal('success');
@@ -67,7 +67,7 @@ describe('Saving Collar Data Tests', () => {
   });
 
   it('should not specific get Collar Data Responses when incorrect params are used', (done) => {
-    agent.get('/api/fetch/SpecificResponseBySortKey?blah=blah')
+    agent.get('/api/fetch/ByPartitionAndSortKeys?blah=blah')
       .expect(400)
       .end((err, res) => {
         res.body.message.should.equal('Collar ID and Collar params required, i.e. partitionKey=abc2&sortKey=3');
@@ -76,7 +76,7 @@ describe('Saving Collar Data Tests', () => {
   });
 
   it('should only get Collar Data Responses containing Medium Barking from the db and return a 200', (done) => {
-    agent.get('/api/fetch/allByBarking?barking=medium')
+    agent.get('/api/fetch/ByPartitionAndActivity?barking=medium')
       .expect(200)
       .end((err, res) => {
         res.body.message.should.equal('success');
@@ -88,7 +88,7 @@ describe('Saving Collar Data Tests', () => {
   });
 
   it('should not get Collar Data Responses containing Medium Barking when incorrect params are used', (done) => {
-    agent.get('/api/fetch/allByBarking?blah=blah')
+    agent.get('/api/fetch/ByPartitionAndActivity?blah=blah')
       .expect(400)
       .end((err, res) => {
         res.body.message.should.equal('Barking value required: i.e. barking=medium');

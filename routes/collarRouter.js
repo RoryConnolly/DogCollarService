@@ -16,10 +16,11 @@ function routes() {
 
   router.route('/fetch/all').get(scController.get);
   router.route('/fetch/allByPartitionKey').get(scController.getByCollar);
-  router.route('/fetch/allByBarking').get(scController.getByBarking);
-  router.route('/fetch/allByActivity').get(scController.getByActivity);
-  router.route('/fetch/allByLocation').get(scController.getByLocation);
-  router.route('/fetch/SpecificResponseBySortKey').get(controller.get);
+  router.route('/fetch/ByPartitionAndActivity').get(scController.getByPartitionAndActivity);
+  // router.route('/fetch/allByActivity').get(scController.getByActivity);
+  router.route('/fetch/allByActivityType').get(scController.getAllByActivityType);
+  // router.route('/fetch/allByLocation').get(scController.getByLocation);
+  router.route('/fetch/ByPartitionAndSortKeys').get(controller.get);
   router.route('/remove').delete(controller.remove);
   router.route('/pushCollarData').post(controller.post);
 

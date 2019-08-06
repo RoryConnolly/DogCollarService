@@ -36,6 +36,7 @@ function docClientController() {
   }
 
   function post(req, res) {
+    // const currentDate = new Date();
     if (
       req.body.partitionKey
       && req.body.sortKey
@@ -58,7 +59,7 @@ function docClientController() {
       });
     } else {
       res.json({
-        message: 'Invalid Schema i.e. activity: low, location: 37901, barking: high, dogName: Bouncer, sortKey: 5, partitionKey: abc6',
+        message: 'Invalid request object',
         statusCode: 400
       });
     }
@@ -87,7 +88,7 @@ function docClientController() {
       });
     } else {
       res.json({
-        message: 'Partition Key and Sort Key required, i.e. partitionKey=abc2&sortKey=3',
+        message: 'Partition Key and Sort Key required',
         statusCode: 400
       });
     }
