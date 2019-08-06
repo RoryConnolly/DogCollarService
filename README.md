@@ -55,13 +55,17 @@ You should see a notification in your terminal that your server is now running l
 
 http://localhost:3000/api/swag-docs
 
-http://localhost:3000/api/fetch/all (returns all dog collar response in db - caution may cause performance issues if db is large)
+http://localhost:3000/api/fetch/all  
+(returns all dog collar response in db - caution may cause performance issues if db is large)
 
-http://localhost:3000/api/fetch/allByCollarId?collarId=abc3 (returns all responses associated with a specific collar. Takes 'collarId' as a param)
+http://localhost:3000/api/fetch/allByCollarId?collarId=abc3  
+(returns all responses associated with a specific collar. Takes 'collarId' as a param)
 
-http://localhost:3000/api/fetch/allByBarking?barking=low (returns all responses with a specific level of barking. Takes 'barking' as a param)
+http://localhost:3000/api/fetch/allByBarking?barking=low  
+(returns all responses with a specific level of barking. Takes 'barking' as a param)
 
-http://localhost:3000/api/fetch/allByActivity?activity=low (returns all responses with a specific level of activity. Takes 'activity' as a param)
+http://localhost:3000/api/fetch/allByActivity?activity=low   
+(returns all responses with a specific level of activity. Takes 'activity' as a param)
 
 http://localhost:3000/api/fetch/allByLocation?location=37901
 
@@ -69,7 +73,8 @@ http://localhost:3000/api/fetch/SpecificCollarRespByID?collarId=abc1&collarResp=
 
 http://localhost:3000/api/remove?collarId=abc3&collarResp=11
 
-http://localhost:3000/api/pushCollarData  (this one requires a request object)
+http://localhost:3000/api/pushCollarData  
+(this one requires a request object)
 
 
 
