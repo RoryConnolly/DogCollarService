@@ -36,7 +36,7 @@ You can use this service in two ways, running it locally or by hitting the deplo
 
 ### Quick Links
 
-http://ec2-52-91-239-59.compute-1.amazonaws.com:3000/api/swag-docs
+http://ec2-52-91-239-59.compute-1.amazonaws.com:3000/swag-docs
 
 http://ec2-52-91-239-59.compute-1.amazonaws.com:3000/api/fetch/all
 
@@ -112,14 +112,14 @@ Then in your terminal window run:
 
 You should see a notification in your terminal that your server is now running locally on port:3000. You can now hit this service in your browser using the following urls:
 
-http://localhost:3000/api/swag-docs   
+http://localhost:3000/swag-docs   
 
       Provides swagger documentation for all the locally hosted endpoints
 
 http://localhost:3000/api/fetch/all  
 
-       Returns all the dog collar responses in database
-       Caution - may cause performance issues if database is large
+      Returns all the dog collar responses in database
+      Caution - may cause performance issues if database is large
 
 http://localhost:3000/api/fetch/allByCollarId?collarId=abc3   
 
