@@ -1,0 +1,292 @@
+{
+	"info": {
+		"_postman_id": "e027c553-e7a4-4071-8e83-82579672a2f2",
+		"name": "DogCollarRequests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Request all CollarData",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/fetch/all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"fetch",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All results for specific collar",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/fetch/allByPartitionKey?partitionKey=12345-12345-1ab2cd3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"fetch",
+						"allByPartitionKey"
+					],
+					"query": [
+						{
+							"key": "sortKey",
+							"value": "1565105507274_BARK",
+							"disabled": true
+						},
+						{
+							"key": "partitionKey",
+							"value": "12345-12345-1ab2cd3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a specific CollarData Response by Partition and Sort Keys",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/fetch/ByPartitionAndSortKeys?partitionKey=54668-30073-6ad9de2&sortKey=1565105507274_BARK",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"fetch",
+						"ByPartitionAndSortKeys"
+					],
+					"query": [
+						{
+							"key": "partitionKey",
+							"value": "54668-30073-6ad9de2"
+						},
+						{
+							"key": "sortKey",
+							"value": "1565105507274_BARK"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all Collar Responses By Activity Type",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/fetch/allByActivityType?activityType=BARK",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"fetch",
+						"allByActivityType"
+					],
+					"query": [
+						{
+							"key": "activityType",
+							"value": "BARK"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Collar Data by specific Partion Key and Filter by Activity",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/fetch/ByPartitionAndActivity?partitionKey=54668-30073-6ad9de2&activityType=BARK",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"fetch",
+						"ByPartitionAndActivity"
+					],
+					"query": [
+						{
+							"key": "partitionKey",
+							"value": "54668-30073-6ad9de2"
+						},
+						{
+							"key": "activityType",
+							"value": "BARK"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Physical Activity Collar Data to the DB",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"partitionKey\": \"12345-12345-1ab2cd3\",\n  \"activityType\": \"PHYSICAL_ACTIVITY\",\n  \"actionData\": {\n      \"duration\": 101\n\t}\n }\n"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/pushCollarData",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"pushCollarData"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Bark Collar Data to the DB Copy",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"partitionKey\": \"12345-12345-1ab2cd3\",\n  \"activityType\": \"BARK\",\n  \"actionData\": {\n      \"duration\": \"67\"\n  }\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/pushCollarData",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"pushCollarData"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Location Collar Data to the DB",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"partitionKey\": \"12345-12345-1ab2cd3\",\n  \"activityType\": \"LOCATION\",\n  \"actionData\": {\n    \"location\": {\n      \"lat\": \"67.17\",\n      \"long\": \"90.33\"\n    }\n  }\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/pushCollarData",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"pushCollarData"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Collar data entry from DB by Partition and Sort Keys",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/remove?partitionKey=12345-12345-1ab2cd3&sortKey=4835202711826_BARK",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"remove"
+					],
+					"query": [
+						{
+							"key": "partitionKey",
+							"value": "12345-12345-1ab2cd3"
+						},
+						{
+							"key": "sortKey",
+							"value": "4835202711826_BARK"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

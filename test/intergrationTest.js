@@ -78,6 +78,28 @@ describe('Saving Collar Data Tests', () => {
     done();
   });
 
+  it('should get all Collar Data Responses containing Location from the db and return a 200', (done) => {
+    agent.get('/api/fetch/allByActivityType?activityType=BARK')
+      .expect(200)
+      .end((err, res) => {
+        res.body.message.should.equal('success');
+        res.body.data[0].should.have.property('activityType', 'BARK');
+        res.body.data[1].should.have.property('activityType', 'BARK');
+        res.body.data[2].should.have.property('activityType', 'BARK');
+        res.body.data[3].should.have.property('activityType', 'BARK');
+      });
+    done();
+  });
+
+  it('should not get all Collar Data Responses containing Barking when incorrect params are used', (done) => {
+    agent.get('/api/fetch/allByActivityType?blah=blah')
+      .expect(400)
+      .end((err, res) => {
+        res.body.message.should.equal('Valid query parameter required');
+      });
+    done();
+  });
+
   it('should only get Collar Data Responses containing Barking for a specific Partition from the db and return a 200', (done) => {
     agent.get('/api/fetch/ByPartitionAndActivity?partitionKey=54668-30073-6ad9de2&activityType=BARK')
       .expect(200)
@@ -89,7 +111,7 @@ describe('Saving Collar Data Tests', () => {
     done();
   });
 
-  it('should not get Collar Data Responses containing Medium Barking when incorrect params are used', (done) => {
+  it('should not get Collar Data Responses containing Barking when incorrect params are used', (done) => {
     agent.get('/api/fetch/ByPartitionAndActivity?blah=blah')
       .expect(400)
       .end((err, res) => {
@@ -98,47 +120,47 @@ describe('Saving Collar Data Tests', () => {
     done();
   });
 
-  // it('should only get Collar Data Responses containing Low Activity from the db and return a 200', (done) => {
-  //   agent.get('/api/fetch/allByActivity?activity=low')
-  //     .expect(200)
-  //     .end((err, res) => {
-  //       res.body.message.should.equal('success');
-  //       res.body.data[0].should.have.property('activity', 'low');
-  //       res.body.data[1].should.have.property('activity', 'low');
-  //       res.body.data[2].should.have.property('activity', 'low');
-  //     });
-  //   done();
-  // });
+  it('should only get Collar Data Responses from a Specific Partition for Bark Activity', (done) => {
+    agent.get('/api/fetch/ByPartitionAndActivity?partitionKey=54668-30073-6ad9de2&activityType=BARK')
+      .expect(200)
+      .end((err, res) => {
+        res.body.message.should.equal('success');
+        res.body.data[0].should.have.property('activityType', 'BARK');
+        res.body.data[1].should.have.property('partitionKey', '54668-30073-6ad9de2');
+      });
+    done();
+  });
 
-  // it('should not get Collar Data Responses containing Low Activity when incorrect params are used', (done) => {
-  //   agent.get('/api/fetch/allByActivity?blah=blah')
-  //     .expect(400)
-  //     .end((err, res) => {
-  //       res.body.message.should.equal('Activity value required: i.e. activity=low');
-  //     });
-  //   done();
-  // });
+  it('should only get Collar Data Responses from a Specific Partition for Physical Activity', (done) => {
+    agent.get('/api/fetch/ByPartitionAndActivity?partitionKey=54668-30073-6ad9de2&activityType=PHYSICAL_ACTIVITY')
+      .expect(200)
+      .end((err, res) => {
+        res.body.message.should.equal('success');
+        res.body.data[0].should.have.property('activityType', 'PHYSICAL_ACTIVITY');
+        res.body.data[1].should.have.property('partitionKey', '54668-30073-6ad9de2');
+      });
+    done();
+  });
 
-  // it('should only get Collar Data Responses containing TN Zip Codes from the db and return a 200', (done) => {
-  //   agent.get('/api/fetch/allByLocation?location=37901')
-  //     .expect(200)
-  //     .end((err, res) => {
-  //       res.body.message.should.equal('success');
-  //       res.body.data[0].should.have.property('location', '37901');
-  //       res.body.data[1].should.have.property('location', '37901');
-  //       res.body.data[2].should.have.property('location', '37901');
-  //     });
-  //   done();
-  // });
+  it('should only get Collar Data Responses from a Specific Partition for Location', (done) => {
+    agent.get('/api/fetch/ByPartitionAndActivity?partitionKey=54668-30073-6ad9de2&activityType=LOCATION')
+      .expect(200)
+      .end((err, res) => {
+        res.body.message.should.equal('success');
+        res.body.data[0].should.have.property('activityType', 'LOCATION');
+        res.body.data[1].should.have.property('partitionKey', '54668-30073-6ad9de2');
+      });
+    done();
+  });
 
-  // it('should not get Collar Data Responses containing TN Zip Codes when incorrect params are used', (done) => {
-  //   agent.get('/api/fetch/allByLocation?blah=blah')
-  //     .expect(400)
-  //     .end((err, res) => {
-  //       res.body.message.should.equal('Location (zipcode) value required: i.e. location=37901');
-  //     });
-  //   done();
-  // });
+  it('should not get Collar Data Responses from a Specific Partition for Location with incorrect params', (done) => {
+    agent.get('/api/fetch/ByPartitionAndActivity?activityType=BLAHBLAH')
+      .expect(400)
+      .end((err, res) => {
+        res.body.message.should.equal('Valid query parameter required');
+      });
+    done();
+  });
 
   it('should only get Collar Data Responses from the same Partition from the db and return a 200', (done) => {
     agent.get('/api/fetch/allByPartitionKey?partitionKey=12345-12345-1ab2cd3')
