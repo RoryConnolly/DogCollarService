@@ -5,6 +5,8 @@ AWS.config.update({
   endpoint: 'http://dynamodb.us-east-1.amazonaws.com',
 });
 
+// A file to create a Test table
+// Can be run in the terminal by typing 'node createTable'
 const dynamodb = new AWS.DynamoDB();
 
 const params = {

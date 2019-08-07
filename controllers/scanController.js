@@ -1,12 +1,14 @@
 const AWS = require('aws-sdk');
 const handleResponse = require('./handleResponse');
 
+// a controller function for all the scan actions
 function scanController() {
   const docClient = new AWS.DynamoDB.DocumentClient();
   const table = 'code-challenge-203';
   const handle = handleResponse();
   const queryObj = {};
 
+  // a function returns everything in the table
   function get(req, res) {
     const params = {
       TableName: table,
@@ -19,6 +21,7 @@ function scanController() {
       }
     });
   }
+  // A function that returns everything in the table with the specified Activity Type
   function getAllByActivityType(req, res) {
     if (req.query.activityType
       && (req.query.activityType === 'BARK'
@@ -42,6 +45,7 @@ function scanController() {
       });
     }
   }
+  // A function that returns everything that matches the supplied Partition Key and Activity Type
   function getByPartitionAndActivity(req, res) {
     if ((req.query.partitionKey && req.query.activityType) && (req.query.activityType === 'BARK'
       || req.query.activityType === 'PHYSICAL_ACTIVITY'
@@ -69,47 +73,7 @@ function scanController() {
       });
     }
   }
-  function getByActivity(req, res) {
-    if (req.query.activity) {
-      queryObj.activity = req.query.activity;
-      const params = {
-        TableName: table,
-        ExpressionAttributeValues: { ':a': queryObj.activity },
-        FilterExpression: 'activity = :a'
-      };
-
-      docClient.scan(params, (err, data) => {
-        if (err) handle.handleError(err, res);
-        else handle.handleSuccess(data.Items, res);
-      });
-    } else {
-      res.json({
-        message: 'Activity value required: i.e. activity=low',
-        statusCode: 400
-      });
-    }
-  }
-  function getByLocation(req, res) {
-    if (req.query.location) {
-      queryObj.location = req.query.location;
-      const params = {
-        TableName: table,
-        ExpressionAttributeNames: { '#location': 'location' },
-        ExpressionAttributeValues: { ':l': queryObj.location },
-        FilterExpression: '#location = :l'
-      };
-
-      docClient.scan(params, (err, data) => {
-        if (err) handle.handleError(err, res);
-        else handle.handleSuccess(data.Items, res);
-      });
-    } else {
-      res.json({
-        message: 'Location (zipcode) value required: i.e. location=37901',
-        statusCode: 400
-      });
-    }
-  }
+  // A function that returns everything in a specific partition
   function getByCollar(req, res) {
     if (req.query.partitionKey) {
       queryObj.partitionKey = req.query.partitionKey;
@@ -131,7 +95,7 @@ function scanController() {
     }
   }
   return {
-    get, getAllByActivityType, getByPartitionAndActivity, getByActivity, getByLocation, getByCollar
+    get, getAllByActivityType, getByPartitionAndActivity, getByCollar
   };
 }
 

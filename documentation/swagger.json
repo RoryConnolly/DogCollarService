@@ -226,94 +226,15 @@
         }
     }
   },
-  "/fetch/allByActivity": {
-    "get": {
-        "tags": [
-            "Dog Collar Requests"
-        ],
-        "summary": "Gets a specific Dog Collar Responses from the DB",
-        "parameters": [
-            {
-                "in": "query",
-                "name": "Values",
-                "required": true,
-                "description": "Cat with id",
-                "schema": {
-                    "type": "object",
-                    "properties": {
-                      "activity": {
-                        "type": "string",
-                        "enum": [
-                          "low",
-                          "medium",
-                          "high"
-                        ]
-                      }
-                    },
-                    "example": {
-                      "activity": "high"
-                    }
-                },
-                "style": "form",
-                "explode": "true"
-              }
-        ],
-        "responses": {
-            "200": {
-                "description": "success"
-            },
-            "404": {
-                "description": "Failed. Cat not found."
-            }
-        }
-    }
-  },
-  "/fetch/allBylocation": {
-    "get": {
-        "tags": [
-            "Dog Collar Requests"
-        ],
-        "summary": "Gets a specific Dog Collar Responses from the DB",
-        "parameters": [
-            {
-                "in": "query",
-                "name": "Values",
-                "required": true,
-                "description": "Cat with id",
-                "schema": {
-                    "type": "object",
-                    "properties": {
-                      "location": {
-                        "type": "string"
-                      }
-                    },
-                    "example": {
-                      "location": "90210"
-                    }
-                },
-                "style": "form",
-                "explode": "true"
-              }
-        ],
-        "responses": {
-            "200": {
-                "description": "success"
-            },
-            "404": {
-                "description": "Failed. Cat not found."
-            }
-        }
-    }
-  },
   "/pushCollarData": {
     "post": {
         "tags": [
             "Dog Collar Requests"
         ],
-        "summary": "Gets a specific Dog Collar Responses from the DB",
+        "summary": "Posts a Dog Collar Response to the DB",
         "requestBody": {
                 "required": true,
-                "description": "Cat with id",
+                "description": "Requires a request body in the following format:",
                 "content": {
                   "application/json": {
                     "schema": {
@@ -355,7 +276,7 @@
                 "explode": "true"
           },
           "responses": {
-            "200": {
+            "202": {
               "description": "success"
             },
             "400": {
@@ -372,13 +293,13 @@
           "tags": [
               "Dog Collar Requests"
           ],
-          "summary": "Gets a specific Dog Collar Responses from the DB",
+          "summary": "Removes a specific Dog Collar Responses from the DB",
           "parameters": [
               {
                   "in": "query",
                   "name": "Values",
                   "required": true,
-                  "description": "Cat with id",
+                  "description": "Requires a Partition and Sort key:",
                   "schema": {
                       "type": "object",
                       "properties": {
@@ -390,8 +311,8 @@
                         }
                       },
                       "example": {
-                        "partitionKey": "abc1",
-                        "sortKey": "20"
+                        "partitionKey": "12345-12345-1ab2cd3",
+                        "sortKey": "7530742165588_BARK"
                       }
                   },
                   "style": "form",
@@ -399,12 +320,15 @@
                 }
           ],
           "responses": {
-              "200": {
-                  "description": "success"
-              },
-              "404": {
-                  "description": "Failed. Cat not found."
-              }
+            "200": {
+              "description": "success"
+            },
+            "400": {
+              "description": "valid query parameter required"
+            },
+            "500": {
+              "description": "server side error"
+            }
           }
       }
     }

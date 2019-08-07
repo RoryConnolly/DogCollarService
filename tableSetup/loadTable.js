@@ -6,6 +6,8 @@ AWS.config.update({
   endpoint: 'http://dynamodb.us-east-1.amazonaws.com',
 });
 
+// A file to quickly load data from mockData.json into the table
+// Can be run in the terminal by typing 'node loadTable'
 const docClient = new AWS.DynamoDB.DocumentClient();
 // eslint-disable-next-line no-console
 console.log('Importing collar data into DynamoDB. Please wait.');
@@ -17,10 +19,9 @@ mockData.forEach((response) => {
     Item: {
       partitionKey: response.partitionKey,
       sortKey: response.sortKey,
-      barking: response.barking,
+      activityType: response.activityType,
       activity: response.activity,
-      location: response.location,
-      dogName: response.dogName
+      actionData: response.actionData,
     }
   };
 
