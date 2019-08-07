@@ -1,6 +1,7 @@
 const AWS = require('aws-sdk');
 const handleResponse = require('./handleResponse');
 
+// A function to create a random  sort key and appends the activity type on the end
 function createSortKey(activityType) {
   let randomNum = '';
   const characters = '0123456789';
@@ -12,12 +13,14 @@ function createSortKey(activityType) {
   return sortKey;
 }
 
+// Function that controls the Get, Post and Delete operations on the db
 function docClientController() {
   const docClient = new AWS.DynamoDB.DocumentClient();
   const table = 'code-challenge-203';
   const handle = handleResponse();
   const queryObj = {};
 
+  // Retrieves a specific db enrty based on Partiton and Sort keys
   function get(req, res) {
     if (req.query.partitionKey && req.query.sortKey) {
       queryObj.partitionKey = req.query.partitionKey;
@@ -40,12 +43,45 @@ function docClientController() {
       });
     } else {
       res.json({
-        message: 'Partition Key and Sort Key params required, i.e. partitionKey=abc2&sortKey=3',
+        message: 'Partition Key and Sort Key params required',
         statusCode: 400
       });
     }
   }
 
+  // TODO - Flesh out further querying routes
+  // function query(req, res) {
+  //   if (req.body.partitionKey && req.query.bottom && req.query.top) {
+  //     const params = {
+  //       TableName: table,
+  //       KeyConditionExpression: '#pk = :key and #d between :top and :bottom',
+  //       ExpressionAttributeNames: {
+  //         '#pk': 'partitionKey',
+  //         '#d': 'duration'
+  //       },
+  //       ExpressionAttributeValues: {
+  //         ':key': req.body.partitionKey,
+  //         ':bottom': req.query.bottom,
+  //         ':top': req.query.top
+  //       }
+  //     };
+
+  //     docClient.query(params, (err, data) => {
+  //       if (err) {
+  //         handle.handleError(err, res);
+  //       } else {
+  //         handle.handleSuccess(data.Item, res);
+  //       }
+  //     });
+  //   } else {
+  //     res.json({
+  //       message: 'Activity Type and Duration params Range Required',
+  //       statusCode: 400
+  //     });
+  //   }
+  // }
+
+  // Function that checks the requst object, adds timestamp and sort key and posts it to the db
   function post(req, res) {
     const currentDate = new Date().toISOString();
 
@@ -92,6 +128,7 @@ function docClientController() {
     }
   }
 
+  // A function that removes a specific db entry bases on Partition and Sort Keyss
   function remove(req, res) {
     if (req.query.partitionKey && req.query.sortKey) {
       queryObj.partitionKey = req.query.partitionKey;
@@ -105,7 +142,6 @@ function docClientController() {
         },
       };
 
-      // TODO do proper codes for delete 204
       docClient.delete(params, (err, data) => {
         if (err) {
           handle.handleError(err, res);

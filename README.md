@@ -54,8 +54,6 @@ Followed by routes such as:
         /fetch/allByPartitionKey
         /fetch/ByPartitionAndSortKeys
         /fetch/ByPartitionAndActivity
-        /fetch/allByActivity
-        /fetch/allByLocation
         /remove
         /pushCollarData
 
@@ -65,8 +63,6 @@ Followed by routes such as:
         /fetch/allByPartitionKey?partitionKey=abc3
         /fetch/ByPartitionAndSortKeys?partitionKey=abc1&sortKey=1
         /fetch/ByPartitionAndActivity?barking=low
-        /fetch/allByActivity?activity=low
-        /fetch/allByLocation?location=37901
         /remove?partitionKey=abc3&sortKey=11
 
   The following route requires a request object:
@@ -91,9 +87,8 @@ http://ec2-52-91-239-59.compute-1.amazonaws.com:3000/api/fetch/ByPartitionAndSor
 
 http://ec2-52-91-239-59.compute-1.amazonaws.com:3000/api/fetch/ByPartitionAndActivity?barking=low
 
-http://ec2-52-91-239-59.compute-1.amazonaws.com:3000/api/allByLocation?location=37901
 
-http://ec2-52-91-239-59.compute-1.amazonaws.com:3000/api/fetch/allByActivity?activity=low
+
 
 ----------
 ## Running Locally
@@ -131,15 +126,6 @@ http://localhost:3000/api/fetch/ByPartitionAndActivity?barking=low
       Returns all responses with a specific level of barking
       Takes 'barking' as a query param
 
-http://localhost:3000/api/fetch/allByActivity?activity=low   
-
-      Returns all responses with a specific level of activity
-      Takes 'activity' as a query param
-
-http://localhost:3000/api/fetch/allByLocation?location=37901  
-
-      Returns all responses within a specific zipcode
-      Takes 'location' as a query param
 
 http://localhost:3000/api/fetch/ByPartitionAndSortKeys?partitionKey=abc1&sortKey=1  
 
