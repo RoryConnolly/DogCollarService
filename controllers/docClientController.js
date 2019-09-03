@@ -16,7 +16,7 @@ function createSortKey(activityType) {
 // Function that controls the Get, Post and Delete operations on the db
 function docClientController() {
   const docClient = new AWS.DynamoDB.DocumentClient();
-  const table = 'code-challenge-203';
+  const table = 'DogCollarData';
   const handle = handleResponse();
   const queryObj = {};
 
@@ -109,7 +109,7 @@ function docClientController() {
       }
 
       const params = {
-        TableName: 'code-challenge-203',
+        TableName: 'DogCollarData',
         Item: request
       };
 

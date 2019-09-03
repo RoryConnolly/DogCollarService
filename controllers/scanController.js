@@ -4,7 +4,7 @@ const handleResponse = require('./handleResponse');
 // a controller function for all the scan actions
 function scanController() {
   const docClient = new AWS.DynamoDB.DocumentClient();
-  const table = 'code-challenge-203';
+  const table = 'DogCollarData';
   const handle = handleResponse();
   const queryObj = {};
 

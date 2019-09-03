@@ -10,12 +10,12 @@ AWS.config.update({
 // Can be run in the terminal by typing 'node loadTable'
 const docClient = new AWS.DynamoDB.DocumentClient();
 // eslint-disable-next-line no-console
-console.log('Importing collar data into DynamoDB. Please wait.');
+console.log('Importing collar data into DynamoDB table DogCollarData. Please wait.');
 
 const mockData = JSON.parse(fs.readFileSync('mockData.json', 'utf8'));
 mockData.forEach((response) => {
   const params = {
-    TableName: 'code-challenge-203',
+    TableName: 'DogCollarData',
     Item: {
       partitionKey: response.partitionKey,
       sortKey: response.sortKey,
