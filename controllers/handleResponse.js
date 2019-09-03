@@ -1,3 +1,4 @@
+// Functions that deal with the db responses
 function handleResponse() {
   function handleSuccess(data, res) {
     res.json({

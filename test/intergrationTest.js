@@ -19,12 +19,14 @@ describe('Saving Collar Data Tests', () => {
 
   it('should allow Collar Data Response to be posted to the db and return a 200', (done) => {
     const collarData = {
-      activity: 'low',
-      location: '90210',
-      barking: 'high',
-      dogName: 'Dash',
-      collarResp: '96',
-      collarId: 'abc1'
+      partitionKey: '12345-12345-1ab2cd3',
+      activityType: 'LOCATION',
+      actionData: {
+        location: {
+          lat: '11.17',
+          long: '90.33'
+        }
+      }
     };
 
     agent.post('/api/pushCollarData')
@@ -38,130 +40,152 @@ describe('Saving Collar Data Tests', () => {
 
   it('should not allow Collar Data Response with missing params to be posted to the db and return a 400', (done) => {
     const collarData = {
-      activity: 'low',
-      location: '90210',
-      barking: 'high',
-      collarResp: '96',
-      collarId: 'abc1'
+      activityType: 'LOCATION',
+      actionData: {
+        location: {
+          lat: '11.17',
+          long: '90.33'
+        }
+      }
     };
 
     agent.post('/api/pushCollarData')
       .send(collarData)
       .expect(400)
       .end((err, res) => {
-        res.body.message.should.equal('Invalid Schema i.e. activity: low, location: 37901, barking: high, dogName: Bouncer, collarResp: 5, collarId: abc6');
+        res.body.message.should.equal('Invalid request object');
         done();
       });
   });
 
   it('should get specific Collar Data Response from the db and return a 200', (done) => {
-    agent.get('/api/fetch/SpecificCollarRespByID?collarId=abc1&collarResp=96')
+    agent.get('/api/fetch/ByPartitionAndSortKeys?partitionKey=54668-30073-6ad9de2&sortKey=1565105507274_BARK')
       .expect(200)
       .end((err, res) => {
         res.body.message.should.equal('success');
-        res.body.data.should.have.property('barking', 'high');
-        res.body.data.should.have.property('activity', 'low');
-        res.body.data.should.have.property('location', '90210');
+        res.body.data.should.have.property('createdAt', '2019-08-06T15:31:47.274Z');
+        res.body.data.should.have.property('activityType', 'BARK');
       });
     done();
   });
 
-  it('should not specific get Collar Data Responses when incorrect params are used', (done) => {
-    agent.get('/api/fetch/SpecificCollarRespByID?blah=blah')
+  it('should not get a Collar Data Response when incorrect params are used', (done) => {
+    agent.get('/api/fetch/ByPartitionAndSortKeys?blah=blah')
       .expect(400)
       .end((err, res) => {
-        res.body.message.should.equal('Collar ID and Collar params required, i.e. collarId=abc2&collarResp=3');
+        res.body.message.should.equal('Partition Key and Sort Key params required');
       });
     done();
   });
 
-  it('should only get Collar Data Responses containing Medium Barking from the db and return a 200', (done) => {
-    agent.get('/api/fetch/allByBarking?barking=medium')
+  it('should get all Collar Data Responses containing Location from the db and return a 200', (done) => {
+    agent.get('/api/fetch/allByActivityType?activityType=BARK')
       .expect(200)
       .end((err, res) => {
         res.body.message.should.equal('success');
-        res.body.data[0].should.have.property('barking', 'medium');
-        res.body.data[1].should.have.property('barking', 'medium');
-        res.body.data[2].should.have.property('barking', 'medium');
+        res.body.data[0].should.have.property('activityType', 'BARK');
+        res.body.data[1].should.have.property('activityType', 'BARK');
+        res.body.data[2].should.have.property('activityType', 'BARK');
+        res.body.data[3].should.have.property('activityType', 'BARK');
       });
     done();
   });
 
-  it('should not get Collar Data Responses containing Medium Barking when incorrect params are used', (done) => {
-    agent.get('/api/fetch/allByBarking?blah=blah')
+  it('should not get all Collar Data Responses containing Barking when incorrect params are used', (done) => {
+    agent.get('/api/fetch/allByActivityType?blah=blah')
       .expect(400)
       .end((err, res) => {
-        res.body.message.should.equal('Barking value required: i.e. barking=medium');
+        res.body.message.should.equal('Valid query parameter required');
       });
     done();
   });
 
-  it('should only get Collar Data Responses containing Low Activity from the db and return a 200', (done) => {
-    agent.get('/api/fetch/allByActivity?activity=low')
+  it('should only get Collar Data Responses containing Barking for a specific Partition from the db and return a 200', (done) => {
+    agent.get('/api/fetch/ByPartitionAndActivity?partitionKey=54668-30073-6ad9de2&activityType=BARK')
       .expect(200)
       .end((err, res) => {
         res.body.message.should.equal('success');
-        res.body.data[0].should.have.property('activity', 'low');
-        res.body.data[1].should.have.property('activity', 'low');
-        res.body.data[2].should.have.property('activity', 'low');
+        res.body.data[0].should.have.property('activityType', 'BARK');
+        res.body.data[1].should.have.property('activityType', 'BARK');
       });
     done();
   });
 
-  it('should not get Collar Data Responses containing Low Activity when incorrect params are used', (done) => {
-    agent.get('/api/fetch/allByActivity?blah=blah')
+  it('should not get Collar Data Responses containing Barking when incorrect params are used', (done) => {
+    agent.get('/api/fetch/ByPartitionAndActivity?blah=blah')
       .expect(400)
       .end((err, res) => {
-        res.body.message.should.equal('Activity value required: i.e. activity=low');
+        res.body.message.should.equal('Valid query parameter required');
       });
     done();
   });
 
-  it('should only get Collar Data Responses containing TN Zip Codes from the db and return a 200', (done) => {
-    agent.get('/api/fetch/allByLocation?location=37901')
+  it('should only get Collar Data Responses from a Specific Partition for Bark Activity', (done) => {
+    agent.get('/api/fetch/ByPartitionAndActivity?partitionKey=54668-30073-6ad9de2&activityType=BARK')
       .expect(200)
       .end((err, res) => {
         res.body.message.should.equal('success');
-        res.body.data[0].should.have.property('location', '37901');
-        res.body.data[1].should.have.property('location', '37901');
-        res.body.data[2].should.have.property('location', '37901');
+        res.body.data[0].should.have.property('activityType', 'BARK');
+        res.body.data[1].should.have.property('partitionKey', '54668-30073-6ad9de2');
       });
     done();
   });
 
-  it('should not get Collar Data Responses containing TN Zip Codes when incorrect params are used', (done) => {
-    agent.get('/api/fetch/allByLocation?blah=blah')
-      .expect(400)
-      .end((err, res) => {
-        res.body.message.should.equal('Location (zipcode) value required: i.e. location=37901');
-      });
-    done();
-  });
-
-  it('should only get Collar Data Responses from the same collar from the db and return a 200', (done) => {
-    agent.get('/api/fetch/allByCollarId?collarId=abc3')
+  it('should only get Collar Data Responses from a Specific Partition for Physical Activity', (done) => {
+    agent.get('/api/fetch/ByPartitionAndActivity?partitionKey=54668-30073-6ad9de2&activityType=PHYSICAL_ACTIVITY')
       .expect(200)
       .end((err, res) => {
         res.body.message.should.equal('success');
-        res.body.data[0].should.have.property('collarId', 'abc3');
-        res.body.data[1].should.have.property('collarId', 'abc3');
-        res.body.data[2].should.have.property('collarId', 'abc3');
+        res.body.data[0].should.have.property('activityType', 'PHYSICAL_ACTIVITY');
+        res.body.data[1].should.have.property('partitionKey', '54668-30073-6ad9de2');
       });
     done();
   });
 
-  it('should not get Collar Data Responses from the same collar when incorrect params are used', (done) => {
-    agent.get('/api/fetch/allByCollarId?blah=blah')
+  it('should only get Collar Data Responses from a Specific Partition for Location', (done) => {
+    agent.get('/api/fetch/ByPartitionAndActivity?partitionKey=54668-30073-6ad9de2&activityType=LOCATION')
+      .expect(200)
+      .end((err, res) => {
+        res.body.message.should.equal('success');
+        res.body.data[0].should.have.property('activityType', 'LOCATION');
+        res.body.data[1].should.have.property('partitionKey', '54668-30073-6ad9de2');
+      });
+    done();
+  });
+
+  it('should not get Collar Data Responses from a Specific Partition for Location with incorrect params', (done) => {
+    agent.get('/api/fetch/ByPartitionAndActivity?activityType=BLAHBLAH')
       .expect(400)
       .end((err, res) => {
-        res.body.message.should.equal('CollarId value required: i.e. collarId=abc1');
+        res.body.message.should.equal('Valid query parameter required');
+      });
+    done();
+  });
+
+  it('should only get Collar Data Responses from the same Partition from the db and return a 200', (done) => {
+    agent.get('/api/fetch/allByPartitionKey?partitionKey=12345-12345-1ab2cd3')
+      .expect(200)
+      .end((err, res) => {
+        res.body.message.should.equal('success');
+        res.body.data[0].should.have.property('partitionKey', '12345-12345-1ab2cd3');
+        res.body.data[1].should.have.property('partitionKey', '12345-12345-1ab2cd3');
+        res.body.data[2].should.have.property('partitionKey', '12345-12345-1ab2cd3');
+      });
+    done();
+  });
+
+  it('should not get Collar Data Responses from the same Partition when incorrect params are used', (done) => {
+    agent.get('/api/fetch/allByPartitionKey?blah=blah')
+      .expect(400)
+      .end((err, res) => {
+        res.body.message.should.equal('Valid query parameter required');
       });
     done();
   });
 
 
-  it('should allow Collar Data Response to be deleted to the db and return a 200', (done) => {
-    agent.delete('/api/remove?collarId=abc1&collarResp=96')
+  it('should allow Collar Data Response to be deleted from the db and return a 200', (done) => {
+    agent.delete('/api/remove?partitionKey=12345-12345-1ab2cd3&sortKey=7530742165588_BARK')
       .expect(200)
       .end((err, res) => {
         res.body.message.should.equal('success');
@@ -173,7 +197,7 @@ describe('Saving Collar Data Tests', () => {
     agent.delete('/api/remove?blah=blah')
       .expect(400)
       .end((err, res) => {
-        res.body.message.should.equal('Collar ID and Collar params required, i.e. collarId=abc2&collarResp=3');
+        res.body.message.should.equal('Partition Key and Sort Key required');
       });
     done();
   });

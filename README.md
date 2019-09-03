@@ -24,7 +24,7 @@ npm run test
 ### Helpful Links
 * [Swagger Documentation](http://ec2-52-91-239-59.compute-1.amazonaws.com:3000/swag-docs)
 * [GitHub Repository](https://github.com/RoryConnolly/DogCollarService)
-* [Post Man Collection](./documentation/DogCollar.postmanCollection.json)
+* [Post Man Collection](./documentation/DogCollarRequests.postman_collection.json)
 
 -----
 
@@ -50,24 +50,21 @@ Each of the different functions of the service is accessed by adding
 
 Followed by routes such as:
 
-        /fetch/all
-        /fetch/allByCollarId
-        /fetch/SpecificCollarRespByID
-        /fetch/allByBarking
-        /fetch/allByActivity
-        /fetch/allByLocation
-        /remove
-        /pushCollarData
-
+      /fetch/all
+      /fetch/allByPartitionKey
+      /fetch/allByActivityType
+      /fetch/ByPartitionAndActivity
+      /fetch/ByPartitionAndSortKeys
+      /remove
+      /pushCollarData
 
   The following routes also require query parameters such as
 
-        /fetch/allByCollarId?collarId=abc3
-        /fetch/SpecificCollarRespByID?collarId=abc1&collarResp=1
-        /fetch/allByBarking?barking=low
-        /fetch/allByActivity?activity=low
-        /fetch/allByLocation?location=37901
-        /remove?collarId=abc3&collarResp=11
+      /fetch/allByPartitionKey?partitionKey=12345-12345-1ab2cd3
+      /fetch/allByActivityType?activityType=PHYSICAL_ACTIVITY
+      /fetch/ByPartitionAndActivity?partitionKey=54668-30073-6ad9de2&activityType=BARK
+      /fetch/ByPartitionAndSortKeys?partitionKey=54668-30073-6ad9de2&sortKey=1565105507274_BARK
+      /remove?partitionKey=54668-30073-6ad9de2&sortKey=1565105507274_LOCATION
 
   The following route requires a request object:
 
@@ -76,24 +73,24 @@ Followed by routes such as:
 
   Example request object:
 
-        {
-          activity: "medium",
-          location: "90210",
-          barking: "low",
-          dogName: "Dash",
-          collarResp: "1",
-          collarId: "abc1"
-        }
+            {
+            "partitionKey": "12345-12345-1ab2cd3",
+            "activityType": "LOCATION",
+            "actionData": {
+                  "location": {
+                        "lat": "11.17",
+                        "long": "90.33"
+                         }
+                  }
+            }
 
 ## Example Endpoints
 
-http://ec2-52-91-239-59.compute-1.amazonaws.com:3000/api/fetch/SpecificCollarRespByID?collarId=abc1&collarResp=1
+http://ec2-52-91-239-59.compute-1.amazonaws.com:3000/api/fetch/ByPartitionAndSortKeys?partitionKey=54668-30073-6ad9de2&sortKey=1565105507274_BARK
 
-http://ec2-52-91-239-59.compute-1.amazonaws.com:3000/api/fetch/allByBarking?barking=low
+http://ec2-52-91-239-59.compute-1.amazonaws.com:3000/api/fetch/ByPartitionAndActivity?partitionKey=54668-30073-6ad9de2&activityType=BARK
 
-http://ec2-52-91-239-59.compute-1.amazonaws.com:3000/api/allByLocation?location=37901
 
-http://ec2-52-91-239-59.compute-1.amazonaws.com:3000/api/fetch/allByActivity?activity=low
 
 ----------
 ## Running Locally
@@ -102,7 +99,7 @@ The service can be run locally by cloning this repo and installing the AWS CLI a
 ```bash
   aws configure
 ```
-You will be prompted for Region (us-east-1), AWS access key and AWS secret access key. These are for accessing the DynamoDb (please contact the repo owner for these).
+You will be prompted for Region (us-east-1), AWS access key and AWS secret access key. These are for accessing the DynamoDb (please contact the repo owner for these). 
 Then in your terminal window run:
 
 ```bash
@@ -121,39 +118,37 @@ http://localhost:3000/api/fetch/all
       Returns all the dog collar responses in database
       Caution - may cause performance issues if database is large
 
-http://localhost:3000/api/fetch/allByCollarId?collarId=abc3   
+http://localhost:3000/api/fetch/allByPartitionKey?partitionKey=12345-12345-1ab2cd3   
 
       Returns all responses associated with a specific collar
-      Takes 'collarId' as a query param
+      Takes 'partitionKey' as a query param
 
-http://localhost:3000/api/fetch/allByBarking?barking=low  
+http://localhost:3000/api/fetch/ByPartitionAndActivity?partitionKey=54668-30073-6ad9de2&activityType=BARK  
 
-      Returns all responses with a specific level of barking
-      Takes 'barking' as a query param
+      Returns all responses with a specific partition key and activity type 
+      Takes 'partitionKey' and 'activityType' as a query param
 
-http://localhost:3000/api/fetch/allByActivity?activity=low   
 
-      Returns all responses with a specific level of activity
-      Takes 'activity' as a query param
-
-http://localhost:3000/api/fetch/allByLocation?location=37901  
-
-      Returns all responses within a specific zipcode
-      Takes 'location' as a query param
-
-http://localhost:3000/api/fetch/SpecificCollarRespByID?collarId=abc1&collarResp=1  
+http://localhost:3000/api/fetch/ByPartitionAndSortKeys?partitionKey=54668-30073-6ad9de2&sortKey=1565105507274_BARK
 
       Returns a specific collar responses
-      Takes 'collarId' and 'collarResp' as query params
+      Takes 'partitionKey' and 'sortKey' as query params
 
-http://localhost:3000/api/remove?collarId=abc3&collarResp=11  
+
+http://localhost:3000/api/fetch/allByActivityType?activityType=BARK
+
+      Returns all collar responses with the specified activity type
+      Takes 'activityType' as query params
+
+http://localhost:3000/api/remove?partitionKey=12345-12345-1ab2cd3&sortKey=7530742165588_BARK  
+
 
       Removes a specific collar repsonses from the database
-      Takes 'collarId' and 'collarResp' as query params
+      Takes 'partitionKey' and 'sortKey' as query params
 
 http://localhost:3000/api/pushCollarData  
 
-      Returns a specific collar responses
-      Takes 'collarId' and 'collarResp' as query params(this one requires a request object - see example above)
+      Posts a collar response to the db.
+      Requires a request object - see example above
 
 

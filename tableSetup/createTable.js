@@ -5,17 +5,19 @@ AWS.config.update({
   endpoint: 'http://dynamodb.us-east-1.amazonaws.com',
 });
 
+// A file to create a Test table
+// Can be run in the terminal by typing 'node createTable'
 const dynamodb = new AWS.DynamoDB();
 
 const params = {
-  TableName: 'CollarData',
+  TableName: 'TestCollarData',
   KeySchema: [
-    { AttributeName: 'collarId', KeyType: 'HASH' }, // Partition key
-    { AttributeName: 'collarResp', KeyType: 'RANGE' } // Sort key
+    { AttributeName: 'partitionKey', KeyType: 'HASH' }, // Partition key
+    { AttributeName: 'sortKey', KeyType: 'RANGE' } // Sort key
   ],
   AttributeDefinitions: [
-    { AttributeName: 'collarId', AttributeType: 'S' },
-    { AttributeName: 'collarResp', AttributeType: 'S' }
+    { AttributeName: 'partitionKey', AttributeType: 'S' },
+    { AttributeName: 'sortKey', AttributeType: 'S' }
   ],
   ProvisionedThroughput: {
     ReadCapacityUnits: 10,
