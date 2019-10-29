@@ -85,7 +85,7 @@ Followed by routes such as:
                   }
             }
 
-## Example Endpoints
+## Example Endpoints (Endpoints are currently Down)
 
 http://ec2-52-91-239-59.compute-1.amazonaws.com:3000/api/fetch/ByPartitionAndSortKeys?partitionKey=54668-30073-6ad9de2&sortKey=1565105507274_BARK
 
