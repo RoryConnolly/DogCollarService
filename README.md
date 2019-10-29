@@ -21,7 +21,8 @@ npm run lint
 npm run test
 ```
 
-### Helpful Links (Links are currently dead)
+### Helpful Links (Links are currently Down)
+
 * [Swagger Documentation](http://ec2-52-91-239-59.compute-1.amazonaws.com:3000/swag-docs)
 * [GitHub Repository](https://github.com/RoryConnolly/DogCollarService)
 * [Post Man Collection](./documentation/DogCollarRequests.postman_collection.json)
@@ -34,7 +35,7 @@ You can use this service in two ways, running it locally or by hitting the deplo
 
 ## AWS Enpoint
 
-### Quick Links
+### Quick Links (Links are currently Down)
 
 http://ec2-52-91-239-59.compute-1.amazonaws.com:3000/swag-docs
 
